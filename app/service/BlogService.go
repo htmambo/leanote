@@ -1193,8 +1193,13 @@ func (this *BlogService) FixBlog(blog info.BlogItem) info.Post {
 	if urlTitle == "" {
 		urlTitle = blog.NoteId.Hex()
 	}
+	notebook := notebookService.GetNotebookById(blog.Note.NotebookId.Hex())
+	cateTitle := notebook.Title
+	cateUrl := notebook.UrlTitle
 	blog2 := info.Post{
 		NoteId:      blog.NoteId.Hex(),
+		NotebookUrl:  cateUrl,
+		NotebookTitle: cateTitle,
 		Title:       blog.Title,
 		UrlTitle:    urlTitle,
 		ImgSrc:      blog.ImgSrc,

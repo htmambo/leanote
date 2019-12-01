@@ -22,6 +22,8 @@ type BlogInfoCustom struct {
 
 type Post struct {
 	NoteId      string
+	NotebookUrl	string
+	NotebookTitle string
 	Title       string
 	UrlTitle    string
 	ImgSrc      string
