@@ -634,6 +634,7 @@ func (c Blog) Post(userIdOrEmail, noteId string) (re revel.Result) {
 	c.ViewArgs["post"] = post
 	// c.ViewArgs["userInfo"] = userInfo
 	c.ViewArgs["curIsPost"] = true
+	c.ViewArgs["curCateId"] = blogInfo.Note.NotebookId.Hex()
 
 	// 上一篇, 下一篇
 	var baseTime interface{}
