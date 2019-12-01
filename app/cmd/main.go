@@ -9,7 +9,7 @@ import (
 func main() {
 	// go run main.go
 	// 生成routes.go, main.go
-	revel.Init("", "github.com/leanote/leanote", "")
+	revel.Init("", "github.com/htmambo/leanote", "")
 	_, err := harness.Build() // ok, err
 	if err != nil {
 		panic(err)

@@ -34012,7 +34012,7 @@ define('core',[
 		$(".action-insert-image").click(function() {
 			// 得到图片链接或图片
 			/*
-			https://github.com/leanote/leanote/issues/171
+			https://github.com/htmambo/leanote/issues/171
 			同遇到了网页编辑markdown时不能添加图片的问题。
 			可以上传图片，但是按下“插入图片”按钮之后，编辑器中没有加入![...](...)
 			我的控制台有这样的错误： TypeError: document.mdImageManager is undefined

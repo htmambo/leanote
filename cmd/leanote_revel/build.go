@@ -10,7 +10,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/leanote/leanote/cmd/harness"
+	"github.com/htmambo/leanote/cmd/harness"
 	"github.com/revel/revel"
 )
 

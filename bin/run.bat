@@ -17,7 +17,7 @@ set GOPATH="%SCRIPTPATH%\bin"
 
 : run
 if %processor_architecture%==x86 (
-	"%SCRIPTPATH%\bin\leanote-windows-386.exe" -importPath github.com/leanote/leanote
+	"%SCRIPTPATH%\bin\leanote-windows-386.exe" -importPath github.com/htmambo/leanote
 ) else (
-	"%SCRIPTPATH%\bin\leanote-windows-amd64.exe" -importPath github.com/leanote/leanote
+	"%SCRIPTPATH%\bin\leanote-windows-amd64.exe" -importPath github.com/htmambo/leanote
 )

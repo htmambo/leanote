@@ -1,8 +1,8 @@
 package service
 
 import (
-	"github.com/leanote/leanote/app/db"
-	. "github.com/leanote/leanote/app/lea"
+	"github.com/htmambo/leanote/app/db"
+	. "github.com/htmambo/leanote/app/lea"
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 	"net/url"

@@ -6,7 +6,7 @@ services:
 
 install:
   - export PATH=$PATH:$HOME/gopath/bin
-  - go get -v github.com/leanote/leanote/app
+  - go get -v github.com/htmambo/leanote/app
   - go get -u github.com/revel/cmd/revel
   - ls $GOPATH/src/github.com/revel/
   # - go get github.com/revel/moudle/revel
@@ -21,9 +21,9 @@ script:
   # gen tmp/main.go, routes/routes.go
   - go run app/cmd/main.go
   # build
-  - go build -o leanote github.com/leanote/leanote/app/tmp
+  - go build -o leanote github.com/htmambo/leanote/app/tmp
   # run with port 9000
-  - ./leanote -importPath=github.com/leanote/leanote -runMode=dev -port=9000 &
+  - ./leanote -importPath=github.com/htmambo/leanote -runMode=dev -port=9000 &
   - sleep 10s;
   # test
   - curl http://localhost:9000
@@ -31,5 +31,5 @@ script:
   - curl http://localhost:9000/login
   - curl http://localhost:9000/demo
 
-  # - revel build github.com/leanote/leanote tmp
+  # - revel build github.com/htmambo/leanote tmp
   # OK

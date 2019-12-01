@@ -5,8 +5,8 @@
 ## Install leanote_revel cmd
 
 ```
-go install github.com/leanote/leanote/cmd/leanote_revel
-leanote_revel run github.com/leanote/leanote
+go install github.com/htmambo/leanote/cmd/leanote_revel
+leanote_revel run github.com/htmambo/leanote
 ````
 
 ## build leanote
@@ -14,7 +14,7 @@ leanote_revel run github.com/leanote/leanote
 在当前目录生成了leanote二进制文件
 
 ```
-go build -o ./leanote github.com/leanote/leanote/app/tmp
+go build -o ./leanote github.com/htmambo/leanote/app/tmp
 ```
 
 ## 运行leanote
@@ -22,5 +22,5 @@ go build -o ./leanote github.com/leanote/leanote/app/tmp
 其中-importPath是必须的
 
 ```
-./leanote -importPath=github.com/leanote/leanote -runMode=prod -port=9000
+./leanote -importPath=github.com/htmambo/leanote -runMode=prod -port=9000
 ```
