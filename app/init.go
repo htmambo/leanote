@@ -115,6 +115,34 @@ func init() {
 		t := time.Unix(int64(sec), 0)
 		return template.HTML(t.Format("2006-01-02 15:04:05"))
 	}
+	revel.TemplateFuncs["dateFriendly"] = func(t time.Time) template.HTML {
+		s1 := t.Unix()
+		s2 := time.Now()
+		sec := s2.Unix() - s1
+		if sec<60 {
+			return template.HTML("刚刚")
+		} else if sec < 1800 {
+			m := int(sec/60)
+			return template.HTML(fmt.Sprintf("%d分钟前", m))
+		} else if sec < 3600 {
+			return template.HTML("半小时前")
+		} else if sec < 86400 {
+			h := int(sec/3600)
+			return template.HTML(fmt.Sprintf("%d小时前", h))
+		} else if sec < 2592000 {
+			d := int(sec/86400)
+			return template.HTML(fmt.Sprintf("%d天前", d))
+		} else {
+			y := int(s2.Year()) - int(t.Year())
+			m := y * 12 + int(s2.Month()) - int(t.Month())
+			if m<12 {
+				return template.HTML(fmt.Sprintf("%d月前", m))
+			} else {
+				return template.HTML(fmt.Sprintf("%d年前", y))
+			}
+			return template.HTML(t.Format("2006年1月2日"))
+		}
+	}
 
 	// interface是否有该字段
 	revel.TemplateFuncs["has"] = func(i interface{}, key string) bool {
