@@ -265,6 +265,9 @@ func (c ApiNote) AddNote(noteOrContent info.ApiNote) revel.Result {
 						// 建立映射
 						file.FileId = fileId
 						noteOrContent.Files[i] = file
+						if(noteOrContent.ImgSrc == "") {
+							noteOrContent.ImgSrc = "/api/file/getImage?fileId=" + fileId
+						}
 
 						if file.IsAttach {
 							attachNum++
@@ -290,7 +293,7 @@ func (c ApiNote) AddNote(noteOrContent info.ApiNote) revel.Result {
 		Title:      noteOrContent.Title,
 		Tags:       noteOrContent.Tags,
 		Desc:       noteOrContent.Desc,
-		//		ImgSrc:     noteOrContent.ImgSrc,
+		ImgSrc:     noteOrContent.ImgSrc,
 		IsBlog:      noteOrContent.IsBlog,
 		IsMarkdown:  noteOrContent.IsMarkdown,
 		AttachNum:   attachNum,
@@ -407,6 +410,9 @@ func (c ApiNote) UpdateNote(noteOrContent info.ApiNote) revel.Result {
 							// 建立映射
 							file.FileId = fileId
 							noteOrContent.Files[i] = file
+							if(noteOrContent.ImgSrc == "" ) {
+								noteOrContent.ImgSrc = "/api/file/getImage?fileId=" + fileId
+							}
 						}
 					} else {
 						return c.RenderJSON(re)
@@ -435,6 +441,10 @@ func (c ApiNote) UpdateNote(noteOrContent info.ApiNote) revel.Result {
 			noteUpdate["ImgSrc"] = noteOrContent.ImgSrc
 		}
 	*/
+	if(noteOrContent.ImgSrc != "") {
+		needUpdateNote = true
+		noteUpdate["ImgSrc"] = noteOrContent.ImgSrc
+	}
 	if c.Has("Title") {
 		needUpdateNote = true
 		noteUpdate["Title"] = noteOrContent.Title

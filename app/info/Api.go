@@ -22,7 +22,7 @@ type ApiNote struct {
 	UserId     string
 	Title      string
 	Desc       string
-	//	ImgSrc     string
+	ImgSrc     string
 	Tags       []string
 	Abstract   string
 	Content    string
