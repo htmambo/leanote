@@ -1107,7 +1107,6 @@ func (this *BlogService) SortSingles(userId string, singleIds []string) (ok bool
 
 // 得到用户的博客url
 func (this *BlogService) GetUserBlogUrl(userBlog *info.UserBlog, username string) string {
-	/*
 	if userBlog != nil {
 		if userBlog.Domain != "" && configService.AllowCustomDomain() {
 			return configService.GetUserUrl(userBlog.Domain)
@@ -1118,7 +1117,6 @@ func (this *BlogService) GetUserBlogUrl(userBlog *info.UserBlog, username string
 			username = userBlog.UserId.Hex()
 		}
 	}
-	*/
 	return configService.GetBlogUrl() + "/" + username
 }
 
@@ -1126,7 +1124,6 @@ func (this *BlogService) GetUserBlogUrl(userBlog *info.UserBlog, username string
 func (this *BlogService) GetBlogUrls(userBlog *info.UserBlog, userInfo *info.User) info.BlogUrls {
 	var indexUrl, postUrl, searchUrl, cateUrl, singleUrl, tagsUrl, archiveUrl, tagPostsUrl string
 	
-	/*
 	if userBlog.Domain != "" && configService.AllowCustomDomain() { // http://demo.com
 		// ok
 		indexUrl = configService.GetUserUrl(userBlog.Domain)
@@ -1147,7 +1144,6 @@ func (this *BlogService) GetBlogUrls(userBlog *info.UserBlog, userInfo *info.Use
 		tagsUrl = indexUrl + "/tags"
 		tagPostsUrl = indexUrl + "/tag"
 	} else {
-		*/
 		// ok
 		blogUrl := configService.GetBlogUrl() // blog.leanote.com
 		userIdOrEmail := ""
@@ -1166,7 +1162,7 @@ func (this *BlogService) GetBlogUrls(userBlog *info.UserBlog, userInfo *info.Use
 		archiveUrl = blogUrl + "/archives/" + userIdOrEmail // blog.leanote.com/archive/username
 		tagsUrl = blogUrl + "/tags/" + userIdOrEmail
 		tagPostsUrl = blogUrl + "/tag/" + userIdOrEmail // blog.leanote.com/archive/username
-	// }
+	}
 
 	return info.BlogUrls{
 		IndexUrl:    indexUrl,

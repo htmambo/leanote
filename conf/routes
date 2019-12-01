@@ -44,6 +44,26 @@ POST	/findPasswordUpdate							Auth.FindPasswordUpdate
 # pjax
 GET     /note/:noteId   	                        Note.Index
 
+# 自定义域名，只针对blog常用的链接
+GET		/getLikesAndComments			Blog.GetLikesAndComments
+GET		/getLikes						Blog.GetLikes
+*		/incReadNum					    Blog.IncReadNum
+*		/likePost					    Blog.LikePost
+*		/likeComment				    Blog.LikeComment
+*		/deleteComment				    Blog.DeleteComment
+GET		/getComments					Blog.GetComments
+*		/commentPost					Blog.CommentPost
+GET		/getPostStat					Blog.GetPostStat
+GET		/tags	                        Blog.Tags
+GET		/tag/:tag	                    Blog.Tag
+GET		/search	                        Blog.Search
+GET		/archives	                    Blog.Archives
+GET		/post/:noteId			        Blog.Post
+GET		/view/:noteId			        Blog.Post
+GET		/single/:singleId			    Blog.Single
+GET		/cate/:notebookId		        Blog.Cate
+GET		/listCateLatest/:notebookId	    Blog.ListCateLatest
+
 # blog
 
 GET		/blog/getLikesAndComments			Blog.GetLikesAndComments
