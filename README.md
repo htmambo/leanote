@@ -1,4 +1,4 @@
 # Leanote
 
 演示地址：
-https://note.haolie.net
+https://www.kaguu.com
