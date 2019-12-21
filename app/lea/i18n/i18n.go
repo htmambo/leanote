@@ -2,13 +2,13 @@ package i18n
 
 import (
 	"fmt"
+	. "github.com/htmambo/leanote/app/lea"
 	"github.com/revel/revel"
 	"github.com/robfig/config"
 	"os"
 	"path/filepath"
 	"regexp"
 	"strings"
-	. "github.com/htmambo/leanote/app/lea"
 )
 
 const (
@@ -107,7 +107,7 @@ func parseLocale(locale string) (language, region string) {
 // Recursively read and cache all available messages from all message files on the given path.
 func loadMessages(path string) {
 	messages = make(map[string]*config.Config)
-
+	fmt.Println("尝试加载语言包：" + path)
 	if error := filepath.Walk(path, loadEachMessageLang); error != nil && !os.IsNotExist(error) {
 		// ERROR.Println("Error reading messages files:", error)
 	}
