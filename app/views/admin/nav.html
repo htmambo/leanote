@@ -8,7 +8,7 @@
 					</b>
 				</i>
 				<span>
-					控制台
+					{{leaMsg . "Dashboard"}}
 				</span>
 			</a>
 		</li>
@@ -26,7 +26,7 @@
 					</i>
 				</span>
 				<span>
-					用户管理
+					User
 				</span>
 			</a>
 			<!-- 导航列表 -->
@@ -34,14 +34,14 @@
 				<li>
 					<a href="/adminUser/index">
 						<span>
-							用户列表
+							Users
 						</span>
 					</a>
 				</li>
 				<li>
 					<a href="/adminUser/add">
 						<span>
-							添加用户
+							Add User
 						</span>
 					</a>
 				</li>
@@ -55,7 +55,7 @@
 					</b>
 				</i>
 				<span>
-					博客管理
+					Blog
 				</span>
 			</a>
 		</li>
@@ -72,42 +72,42 @@
 					</i>
 				</span>
 				<span>
-					邮件管理
+					Email
 				</span>
 			</a>
 			<ul class="nav lt">
 				<li>
 					<a href="/admin/t?t=email/set">
 						<span>
-							配置
+							Configuration
 						</span>
 					</a>
 				</li>
 				<li>
 					<a href="/admin/t?t=email/template">
 						<span>
-							模板
+							Template
 						</span>
 					</a>
 				</li>
 				<li>
 					<a href="/admin/t?t=email/sendToUsers">
 						<span>
-							发送邮件给用户
+							Send Email to Users
 						</span>
 					</a>
 				</li>
 				<li>
 					<a href="/admin/t?t=email/send">
 						<span>
-							发送邮件
+							Send Email
 						</span>
 					</a>
 				</li>
 				<li>
 					<a href="/adminEmail/list">
 						<span>
-							邮件发送日志
+							Email Logs
 						</span>
 					</a>
 				</li>
@@ -127,7 +127,7 @@
 					</i>
 				</span>
 				<span>
-					配置
+					Configuration
 				</span>
 			</a>
 			<ul class="nav lt">
@@ -135,7 +135,7 @@
 				<li>
 					<a href="/admin/t?t=setting/site_url">
 						<span>
-							网址
+							Site's URL
 						</span>
 					</a>
 				</li>
@@ -143,7 +143,7 @@
 				<li>
 					<a href="/admin/t?t=setting/home_page">
 						<span>
-							首页
+							Home Page
 						</span>
 					</a>
 				</li>
@@ -151,7 +151,7 @@
 				<li>
 					<a href="/admin/t?t=setting/demo">
 						<span>
-							演示用户
+							Demo User
 						</span>
 					</a>
 				</li>
@@ -159,7 +159,7 @@
 				<li>
 					<a href="/admin/t?t=setting/open_register">
 						<span>
-							开放注册
+							Open Register
 						</span>
 					</a>
 				</li>
@@ -167,7 +167,7 @@
 				<li>
 					<a href="/admin/t?t=setting/share_note">
 						<span>
-							共享笔记
+							Register Share Note
 						</span>
 					</a>
 				</li>
@@ -175,7 +175,7 @@
 				<li>
 					<a href="/admin/t?t=setting/upload">
 						<span>
-							上传文件尺寸设置
+							Upload File Size Limit
 						</span>
 					</a>
 				</li>
@@ -183,7 +183,7 @@
 				<li>
 					<a href="/admin/t?t=setting/export_pdf">
 						<span>
-							导出 PDF
+							Export PDF
 						</span>
 					</a>
 				</li>
@@ -205,25 +205,61 @@
 				</span>
 				
 				<span>
-					数据
+					Data
 				</span>
 			</a>
 			<ul class="nav lt">
 				<li>
 					<a href="/admin/t?t=data/configuration">
 						<span>
-							Mongodb Tool 配置
+							Mongodb Tool Configuration
 						</span>
 					</a>
 				</li>
 				<li>
 					<a href="/adminData/index">
 						<span>
-							备份恢复
+							Backup & Restore
 						</span>
 					</a>
 				</li>
 			</ul>
 		</li>
+		<!--
+		<li>
+			<a href="#">
+				<i class="fa fa-space-shuttle icon">
+					<b class="bg-danger">
+					</b>
+				</i>
+				<span class="pull-right">
+					<i class="fa fa-angle-down text">
+					</i>
+					<i class="fa fa-angle-up text-active">
+					</i>
+				</span>
+
+				<span>
+					Upgrade
+				</span>
+			</a>
+			<ul class="nav lt">
+				<li>
+					<a href="/admin/t?t=upgrade/beta2">
+						<span>
+							v1.0-beta to v1.0-beta.2
+						</span>
+					</a>
+				</li>
+				<li>
+					<a href="/admin/t?t=upgrade/beta3">
+						<span>
+							v1.0-beta.2/3 to v1.0-beta.4
+						</span>
+					</a>
+				</li>
+			</ul>
+		</li>
+		-->
 	</ul>
 </nav>

@@ -1,0 +1,52 @@
+    </div>
+    <div class="clear"></div>
+</div>
+<div id="footer">
+    <div class="foot">
+		<div id="links">
+		    <ul class="linkcat">
+		        <li><strong>友情链接：</strong></li>
+              	{{if $.themeInfo.FriendLinks}}
+          		{{range $.themeInfo.FriendLinks}}
+					<li><a href="{{.Url}}" target="_blank">{{.Title}}</a></li>
+          		{{end}}
+              	{{end}}
+            </ul>
+            <div class="clear"></div>
+        </div>
+        <div class="ps">
+            <div class="p p2">
+                <div class="clear"></div>
+                <div class="site-info">Copyright ©  WWW.HAOLIE.NET   |   <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">陕ICP备19018431号</a><span class="footer-tag">&nbsp; | &nbsp; Theme by <a href="http://yigujin.wang/"  target="_blank" title="zblogPHP免费响应式博客主题BlogsV2.0">Blogs</a>&nbsp; | &nbsp; Powered by <a href="http://www.leanote.com/" title="蚂蚁笔记" target="_blank">Leanote</a></span></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="tools">
+    <a class="tools_top" title="返回顶部"></a>
+</div>
+	<script src="https://haolie.net/zb_users/theme/Blogs/script/superfish.js" type="text/javascript"></script>
+</div>
+
+
+<script src="{{$.jQueryUrl}}"></script>
+<script src="{{$.bootstrapJsUrl}}"></script>
+<script src="{{$.siteUrl}}/js/bootstrap-hover-dropdown.js"></script>
+<script>
+// 搜索
+function search(e) {
+	var keywords = $("#searchInput").val();
+	if(!keywords) {
+		location.href = "{{$.searchUrl}}";
+	} else {
+		var tpl = '<form style="display: none" action="{{$.searchUrl}}" method="get">';
+		tpl += '<input name="keywords" value="' + keywords + '" />';
+		tpl += "</form";
+		var $tpl = $(tpl);
+		$('body').append($tpl)
+		$tpl.submit();
+		$tpl.remove(); 
+	}
+}
+</script>

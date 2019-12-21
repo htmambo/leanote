@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta name="renderer" content="webkit">
+<meta name="applicable-device" content="pc,mobile">
+<meta name="HandheldFriendly" content="true"/>
+<meta name="robots" content="index,follow"/>
+<title>
+{{if $.curIsIndex}}
+    {{$.blogInfo.Title}}
+{{else if $.curIsCate}}
+    分类-{{$.curCateTitle}}
+{{else if $.curIsSearch}}
+    搜索-{{$.keywords}}
+{{else if $.curIsTags}}
+    我的标签
+{{else if $.curIsTagPosts}}
+    标签-{{$.curTag}}
+{{else if $.curIsPost}}
+	{{$.post.Title}}
+{{else if $.curIsSingle}}
+	{{$.single.Title}}
+{{else if $.curIsArchive}}
+	归档
+{{end}}
+</title>
+<meta name="Keywords" content="请填写站点关键词，多个请用英文逗号隔开,好咧">
+<meta name="description" content="请填写站点描述">
+<!-- Bootstrap core CSS -->
+<link href="{{$.bootstrapCssUrl}}" rel="stylesheet">
+<!-- 字体必须同一域 -->
+<link href="{{$.fontAwesomeUrl}}" rel="stylesheet">
+<link href="{{$.themeBaseUrl}}/style.css" rel="stylesheet">
+<!--[if IE]>
+<div class="tixing"><strong>温馨提示：感谢您访问本站，经检测您使用的浏览器为IE浏览器，为了获得更好的浏览体验，请使用Chrome、Firefox或其他浏览器。</strong>
+</div>
+<![endif]-->
+</head>
+<body>
+<div id="page" class="hfeed site">
+	<header id="masthead" class="site-header">
+		<div id="menu-box">
+			<div id="top-menu">
+				<div class="logo-site">
+					<div class="site-title">
+						<a href="{{.indexUrl}}" title="{{$.blogInfo.Title}}">
+                	        {{if $.blogInfo.Logo}}
+							<img src="{{$.blogInfo.Logo}}" width="220" height="50" alt="{{$.blogInfo.Title}}" title="{{$.blogInfo.Title}}"/>
+							{{else}}
+							<h1>{{$.blogInfo.Title | raw}}</h1>
+			                {{end}}
+							<span>{{$.blogInfo.SubTitle|raw}}</span>
+						</a>
+					</div>
+				</div><!-- .logo-site -->
+				<div id="site-nav-wrap">
+					<div id="sidr-close"><a href="#sidr-close" class="toggle-sidr-close">X</a></div>
+					<nav id="site-nav" class="main-nav"> 
+						<a href="#sidr-main" id="navigation-toggle" class="bars"><i class="fa fa-bars"></i></a> 
+						<div id="divNavBar-main">
+							<ul id="menu-main" class="down-menu nav-menu">
+                    	    	<li><a href="{{.indexUrl}}" class="{{if $.curIsIndex}}current-menu-item{{end}}">主页</a></li>
+                    		    <!-- 分类页 -->
+                    		   	{{range $.cates}}
+                    				<li>
+                    					<a href="{{$.cateUrl}}/{{.UrlTitle}}" class="{{if eq .CateId $.curCateId}}current-menu-item{{end}}">{{.Title}}</a>
+                    				</li>
+                    			{{end}}
+                    			<!-- 单页 -->
+                    			{{range $.singles}}
+                    			    <li>
+                    					<a href="{{$.singleUrl}}/{{.UrlTitle}}" class="{{if eq $.curSingleId .SingleId}}current-menu-item{{end}}">{{.Title}}</a>
+                    				</li>
+                    			{{end}}
+                    			
+                    			<!-- 归档 -->
+                    			<li>
+                    				<a href="{{$.archiveUrl}}" class="{{if $.curIsArchive}}current-menu-item{{end}}">归档</a>
+                    			</li>
+                    			<li>
+                    				<a href="{{$.tagsUrl}}" class="{{if $.curIsTags}}current-menu-item{{end}}">标签</a>
+                    			</li>
+							</ul>
+						</div> 
+					</nav>
+				</div><!-- #site-nav-wrap -->
+			</div><!-- #top-menu -->
+		</div><!-- #menu-box -->
+	</header><!-- #masthead -->

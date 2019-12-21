@@ -1,0 +1,39 @@
+<div id="sidebar" class="widget-area">
+    <aside id="divSearchPanel" class="widget widget_searchpanel">
+        <h3 class="widget-title"><span class="cat">搜索</span></h3>
+        <div class="textwidget" id="divSearchPanel-1">
+    		<form method="get" class="searchform" action="{{$.searchUrl}}">
+    			<input type="text" value="{{$.keywords}}" name="keywords" class="s" placeholder="请输入要搜索的内容">
+    			<button class="searchsubmit">
+    				搜索
+    			</button>
+    		</form>
+        </div>
+        <div class="clear"></div>
+    </aside>
+
+    <aside id="divPrevious" class="widget widget_previous">
+        <h3 class="widget-title"><span class="cat">推荐</span></h3>
+        <div class="new_cat" id="new_cat"><ul>
+	        {{range $.recentPosts}}
+            <li class="clr">
+                <a href="{{$.postUrl}}/{{.UrlTitle}}" title="{{.Title|raw}}" target="_blank">
+                    <div class="time"><span class="r">{{.UpdatedTime.Format "02"}}</span>/<span class="y">{{.UpdatedTime.Format "01"}}月</span></div>
+                    <div class="title">{{.Title|raw}}</div>
+                </a>
+            </li>
+			{{end}}
+		</ul></div>
+    </aside>
+
+    <aside id="divContorPanel" class="widget widget_controlpanel">
+        <h3 class="widget-title"><span class="cat">标签</span></h3>
+        <div class="textwidget" id="divContorPanel-1">
+		    {{range $.tags}}
+            <span class="cp-login"><a href="{{$.tagUrl}}/{{.Tag}}">{{.Tag}}</a></span>
+			{{end}}
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+    </aside>
+</div>

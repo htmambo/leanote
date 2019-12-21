@@ -1,0 +1,68 @@
+{{template "header.html" .}}
+<nav class="breadcrumb"><a title="返回首页" href="{{.indexUrl}}">首页</a>&nbsp;&gt;&nbsp;{{.single.Title}}</nav>
+<div id="main-area" class="site-content">	
+    <div class="clear"></div>
+    <div id="contentab">	
+        <section class="content-area">
+	        <main id="main" class="site-main" role="main">
+                <article class="post type-post status-publish format-standard hentry category-codelife">
+					<header class="entry-header title">
+                        <h1 class="entry-title">{{.single.Title}}</h1>
+                        <div class="single_info">
+                            <i class="fa fa-user"></i>&nbsp;{{$.blogInfo.Username}}&nbsp;
+                            <span class="date"><i class="fa fa-clock"></i>&nbsp;{{$.single.UpdatedTime | datetime}}&nbsp;</span>
+                        </div>							
+                        <div id="blogNav">
+                        	<div id="blogNavNav">
+                        		<i class="fa fa-align-justify" title="文档导航"></i>
+                        		<span>文档导航</span>
+                        	</div>
+                        	<div id="blogNavContent">
+                        	</div>
+                        </div>
+                    </header><!-- .entry-header -->
+                    <div class="entry-content">
+						<div class="single-content {{if $.post.IsMarkdown }}markdown-content{{end}}" id="content">
+					        {{$.single.Content | raw}}
+						</div>
+						<div class="clear"></div>
+					</div>
+				</article>
+                {{template "share_comment.html" $}}
+            </main>
+        </section>
+    </div>
+</div>
+
+
+{{template "footer.html" $}}
+{{template "highlight.html" $}}
+
+<!-- 一些在share_comment.js 需要使用的变量 -->
+<script>
+var siteUrl = "{{$.siteUrl}}"; // common.js需要
+// 以下 share_comment.js需要
+var blogInfo={UserId: "{{$.blogInfo.UserId}}", OpenComment: {{$.blogInfo.OpenComment}}, CommentType: "{{$.blogInfo.CommentType}}"}; 
+var noteId = "{{$.post.NoteId}}"; // 
+var preLikeNum = +"{{$.post.LikeNum}}";
+var commentNum = +"{{$.post.CommentNum}}";
+</script>
+
+<!-- 共享与评论css -->
+<link href="{{$.shareCommentCssUrl}}" rel="stylesheet">
+<!-- 一些公用的js -->
+<script src="{{$.blogCommonJsUrl}}"></script>
+<script src="{{$.siteUrl}}/public/blog/js/jsrender.js"></script>
+<script src="{{$.siteUrl}}/public/blog/js/jquery-cookie-min.js"></script>
+<script src="{{$.siteUrl}}/public/blog/js/bootstrap-dialog.min.js"></script>
+<script src="{{$.siteUrl}}/public/blog/js/jquery.qrcode.min.js"></script>
+<!-- share && comment -->
+<script src="{{$.shareCommentJsUrl}}"></script>
+<script>
+$(function() {
+	initNav();
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,237 @@
+{{template "header.html" .}}
+<nav class="breadcrumb"><a title="返回首页" href="{{.indexUrl}}">首页</a>&nbsp;&gt;&nbsp;<a href="{{$.cateUrl}}/{{$.post.NotebookUrl}}">{{$.post.NotebookTitle}}</a>&nbsp;&gt;&nbsp;{{.post.Title}}</nav>
+<div id="main-area" class="site-content">	
+    <div class="clear"></div>
+    <div id="contentab">	
+        <section id="primary" class="content-area">
+	        <main id="main" class="site-main" role="main">
+                <article class="post type-post status-publish format-standard hentry category-codelife">
+                    <div class="post-date-ribbon"><div class="corner"></div>{{$.post.NotebookTitle}}</div>
+					<header class="entry-header title">
+                        <h1 class="entry-title">{{.post.Title}}</h1>
+                        <div class="single_info">
+                            <i class="fa fa-user"></i>&nbsp;{{$.blogInfo.Username}}&nbsp;
+                            <span class="date"><i class="fa fa-clock"></i>&nbsp;{{$.post.PublicTime | datetime}}&nbsp;</span>
+                            <span class="views"><i class="fa fa-users"></i>&nbsp;{{$.post.ReadNum}} 次阅读</span>
+                            <!--span class="comment"><i class="fa fa-comment"></i>&nbsp;{{$.post.CommentNum}} 条评论</span-->
+                			<span class="comment"><i class="fa fa-thumbs-o-up"></i>&nbsp;{{$.post.LikeNum}} 人支持</span>
+                        </div>							
+<div id="blogNav">
+	<div id="blogNavNav">
+		<i class="fa fa-align-justify" title="文档导航"></i>
+		<span>文档导航</span>
+	</div>
+	<div id="blogNavContent">
+	</div>
+</div>
+
+                    </header><!-- .entry-header -->
+                    <div class="entry-content">
+						<div class="single-content {{if $.post.IsMarkdown }}markdown-content{{end}}" id="content">
+            				{{if $.post.IsMarkdown }}
+            					<div id="markdownContent" style="display: none">
+            						<!-- 用textarea装html, 防止得到的值失真 -->
+            						<textarea>{{$.post.Content | raw}}</textarea>
+            					</div>
+            					<div style="padding: 20px; text-align: center">
+            						<img src="{{$.themeBaseUrl}}/images/loading-32.gif" />
+            					</div>
+            				{{else}}
+            						{{$.post.Content | raw}}
+            				{{end}}
+						</div>
+						<div class="clear"></div>
+                        <div class="social-main">
+
+<!-- 赞 -->
+<div class="entry-controls clearfix">
+	<div class="vote-section-wrapper clearfix">
+		<button class="btn btn-default btn-zan" id="likeBtn"><i class="fa fa-thumbs-o-up"></i> <span id="likeNum">{{$.post.LikeNum}}</span> likes</button>
+		<span class="control-item read-counts"><i class="fa fa-eye"></i> {{if $.post.ReadNum}}{{$.post.ReadNum}}{{else}}1{{end}}</span>
+	</div>
+	<div class="right-section">
+		<div id="weixinQRCode"></div>
+		<button class="btn btn-share btn-default btn-weibo"><i class="fa fa-weibo"></i> Weibo</button>
+		<button class="btn btn-share btn-default btn-weixin"><i class="fa fa-wechat"></i> Wechat</button>
+		<div class="dropdown" style="display: inline-block; cursor: pointer; padding: 5px 10px; padding-right: 30px">
+			
+			<div class="dropdown-toggle" data-hover="dropdown" data-toggle="dropdown">
+				<i class="fa fa-ellipsis-h"></i>
+			</div>
+			<ul class="dropdown-menu" role="menu">
+				<li><a href="#" class="btn-share tencent-weibo"><i class="fa fa-tencent-weibo"></i> Tencent Weibo</a></li>
+				<li><a href="#" class="btn-share qq"><i class="fa fa-qq"></i> QQ Zone</a></li>
+				<li><a href="#" class="btn-share renren"><i class="fa fa-renren"></i> RenRen</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="voters clearfix" id="likers">
+	</div>
+</div>
+
+<script type="text/x-jsrender" id="tLikers">
+[[for users]]
+	<a id="liker_[[:UserId]]" title="[[:BlogTitle]]" href="[[:BlogUrl]]" target="_blank" class="voter">
+		[[if Logo]]
+			<img alt="avatar" class="avatar-small" src="[[:Logo]]">
+		[[else]]
+			<img alt="avatar" class="avatar-small" src="/images/blog/default_avatar.png">
+		[[/if]]
+	</a>
+[[/for]]
+</script>
+
+
+                        
+						    <div class="clear"></div>
+                        </div>
+                        <div class="clear"></div>
+                        <div class="post-navigation">
+                            <div class="post-previous">
+                                <span>PREVIOUS:</span>
+                                {{if $.prePost}}
+                                <a href="{{$.postUrl}}/{{$.prePost.UrlTitle}}">{{$.prePost.Title}}</a>
+                                {{else}}
+                                <a href="javascript:;">已经是第一篇了</a>
+                                {{end}}
+                            </div>
+                            <div class="post-next">
+                                <span>NEXT:</span>
+                                {{if $.nextPost}}
+                                <a href="{{$.postUrl}}/{{$.nextPost.UrlTitle}}">{{$.nextPost.Title}}</a>
+                                {{else}}
+                                <a href="JavaScript:void(0)">已经是最新一篇了</a>
+                                {{end}}
+                            </div>
+                        </div>
+                        <nav class="nav-single-c"> 	
+                            <nav class="navigation post-navigation" role="navigation">		
+                                <h2 class="screen-reader-text">文章导航</h2>		
+                                <div class="nav-links">
+                                    {{if $.prePost}}
+                                    <div class="nav-previous">
+                                        <a href="{{$.postUrl}}/{{$.prePost.UrlTitle}}" rel="prev"><span class="meta-nav-r" aria-hidden="true"><i class="fa fa-angle-left"></i></span></a>
+                                    </div>
+                                    {{end}}
+                                    {{if $.nextPost}}
+                                    <div class="nav-next">
+                                        <a href="{{$.postUrl}}/{{$.nextPost.UrlTitle}}" rel="next"><span class="meta-nav-l" aria-hidden="true"><i class="fa fa-angle-right"></i></span></a>
+                                    </div>
+                                    {{end}}
+                                </div>	
+                            </nav>
+                        </nav>
+					</div>
+				</article>
+                {{template "share_comment.html" $}}
+            </main>
+        </section>
+        {{template "aside.html" $}}
+    </div>
+</div>
+
+
+{{template "footer.html" $}}
+{{template "highlight.html" $}}
+
+<!-- 一些在share_comment.js 需要使用的变量 -->
+<script>
+var siteUrl = "{{$.siteUrl}}"; // common.js需要
+// 以下 share_comment.js需要
+var blogInfo={UserId: "{{$.blogInfo.UserId}}", OpenComment: {{$.blogInfo.OpenComment}}, CommentType: "{{$.blogInfo.CommentType}}"}; 
+var noteId = "{{$.post.NoteId}}"; // 
+var preLikeNum = +"{{$.post.LikeNum}}";
+var commentNum = +"{{$.post.CommentNum}}";
+</script>
+
+<!-- 共享与评论css -->
+<link href="{{$.shareCommentCssUrl}}" rel="stylesheet">
+<!-- 一些公用的js -->
+<script src="{{$.blogCommonJsUrl}}"></script>
+<script src="{{$.siteUrl}}/public/blog/js/jsrender.js"></script>
+<script src="{{$.siteUrl}}/public/blog/js/jquery-cookie-min.js"></script>
+<script src="{{$.siteUrl}}/public/blog/js/bootstrap-dialog.min.js"></script>
+<script src="{{$.siteUrl}}/public/blog/js/jquery.qrcode.min.js"></script>
+<!-- share && comment -->
+<script src="{{$.shareCommentJsUrl}}"></script>
+<script>
+
+function initNav1() {
+	var hasNav = genNav();
+	if(!hasNav) {
+		return;
+	}
+	
+	var $title = $(".title");
+	var titlePos = $title.offset();
+	var top = titlePos.top + 10;// - $title.height();
+	if(LEA.isMobile){ 
+		top += 30;
+	}
+	if(top < 0) {
+		top = 10;
+	}
+
+	var left = $title.width() + titlePos.left - 100;
+	$("#blogNav").css("top", top).css("left", left);
+	$("#blogNav").show();
+	
+	$("#blogNavNav").click(function() {
+		var $o = $("#blogNavContent");
+		if($o.is(":hidden")) {
+			$o.show();
+		} else {
+			$o.hide();
+		}
+	});
+	
+	var $d = $(document);
+	function reNav() {
+	    var vtop = $d.scrollTop();
+	    var h=$('#sidebar').height()+$('#sidebar').offset().top;
+	    if(vtop>h && $d.width()>900) {
+			$("#blogNav").css("left", $('#sidebar').offset().left + 10);
+	    } else {
+			$("#blogNav").css("left", left);
+	    }
+	    if(vtop <= top) {
+			$("#blogNav").css("top", top-vtop);
+	    } else {
+	    	if(LEA.isMobile) {
+				$("#blogNav").css("top", 50);
+			} else {
+				$("#blogNav").css("top", 10);
+			}
+	    }
+	}
+	reNav();
+	$(window).scroll(reNav);
+}
+</script>
+<!-- 
+markdown 
+调用markdown来解析得到html
+-->
+{{if $.post.IsMarkdown }}
+<script src="/public/libs/md2html/md2html.js"></script>
+<script>
+var content = $.trim($("#markdownContent textarea").val());
+md2Html(content, $("#content"), function(html) {
+    $("pre").addClass("prettyprint linenums");
+    prettyPrint();
+    initNav1();
+    weixin();
+});
+</script>
+<!-- 不是markdown -->
+{{else}}
+<script>
+$(function() {
+	initNav1();
+	weixin();
+});
+</script>
+{{end}}
+
+</body>
+</html>

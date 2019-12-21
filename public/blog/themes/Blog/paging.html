@@ -1,0 +1,56 @@
+{{if gt $.paging.TotalPage 1}}
+
+<!-- 第一页 -->
+{{set . "firstPageUrl" "javascript:;"}}
+{{if gt $.paging.TotalPage 11}}
+    {{if gt $.paging.CurPage 6}}
+        {{set . "firstPageUrl" $.pagingBaseUrl}}
+    {{end}}
+{{end}}
+
+{{if gt $.paging.CurPage 1}}
+    {{set . "firstPageUrl" $.pagingBaseUrl}}
+{{end}}
+
+<!-- 最后一页 -->
+{{set . "endPageUrl" "javascript:;" }}
+{{if gt $.paging.TotalPage 11}}
+    {{set . "endPageUrl" (urlConcat $.pagingBaseUrl "page" $.paging.TotalPage) }}
+{{end}}
+{{if gt $.paging.TotalPage $.paging.CurPage}}
+    {{set . "endPageUrl" (urlConcat $.pagingBaseUrl "page" $.paging.TotalPage) }}
+{{end}}
+
+
+<!-- 上一页 -->
+{{if gt $.paging.CurPage 1}}
+    {{set . "prePageUrl" (urlConcat $.pagingBaseUrl "page" (incr $.paging.CurPage -1)) }}
+{{else}}
+    {{set . "prePageUrl" "javascript:;"}}
+{{end}}
+
+<!-- 下一页 -->
+{{if lt $.paging.CurPage $.paging.TotalPage }}
+    {{set . "nextPageUrl" (urlConcat $.pagingBaseUrl "page" (incr $.paging.CurPage 1)) }}
+{{else}}
+    {{set . "nextPageUrl" "javascript:;"}}
+{{end}}
+<nav class="navigation pagination" role="navigation">
+    <div class="nav-links">
+        <a class="page-numbers" href="{{$.firstPageUrl}}" title="第1页"><i class="fa fa-angle-double-left"></i></a>
+        <span class="prev"><a class="page-numbers" href="{{$.prePageUrl}}" title="上一页"><i class="fa fa-angle-left"></i></a></span>
+
+        <!--span class="page-numbers current">{{$.paging.CurPage}}</span>
+        <a class="page-numbers" href="https://haolie.net/page_3.html" title="第3页">3</a>
+        <a class="page-numbers" href="https://haolie.net/page_4.html" title="第4页">4</a>
+        <a class="page-numbers" href="https://haolie.net/page_5.html" title="第5页">5</a-->
+
+
+        <span class="next"><a class="page-numbers" href="{{$.nextPageUrl}}" title="下一页"><i class="fa fa-angle-right"></i></a></span>
+        <a class="page-numbers" href="{{$.endPageUrl}}" title="最后一页"><i class="fa fa-angle-double-right"></i></a>
+        
+        <span class="current">{{$.paging.CurPage}} / {{$.paging.TotalPage}}</span>
+    </div>
+</nav>
+
+{{end}}

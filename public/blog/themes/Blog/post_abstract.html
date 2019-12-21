@@ -1,0 +1,39 @@
+{{range $.posts}}
+{{$sec := .PublicTime.Format "5"}}
+<article id="post-{{$.postId}}" class="archive-list">
+    <div class="post-date-ribbon">
+        <div class="corner"></div>{{.PublicTime.Format "2006年01月02日"}}
+    </div>
+	<figure class="thumbnail">
+		<a href="{{$.postUrl}}/{{.UrlTitle}}"  title="{{.Title}}">
+		    {{if .ImgSrc}}
+            <img src="{{.ImgSrc}}" alt="{{.Title}}" />
+		    {{else}}
+<img src="{{$.siteUrl}}/public/images/random/
+{{if lt $sec "06"}}1{{else if lt $sec "12"}}2{{else if lt $sec "18"}}3{{else if lt $sec "24"}}4{{else if lt $sec "30"}}5
+{{else if lt $sec "36"}}6{{else if lt $sec "42"}}7{{else if lt $sec "48"}}8{{else if lt $sec "54"}}9{{else}}10{{end}}.jpg" alt="{{.Title}}" />
+		    {{end}}
+        </a>
+    </figure>	
+    <header class="entry-header">
+	    <h2 class="entry-title">
+            <a href="{{$.postUrl}}/{{.UrlTitle}}" title="{{.Title}}">{{.Title}}</a>
+        </h2>
+    </header>
+	<div class="entry-content">
+		<div class="archive-content">
+			{{.Desc | raw}}
+		</div>
+		<div class="entry-meta">
+            <span class="post_cat"><i class="fa fa-folder" aria-hidden="true"></i>&nbsp;
+			<a href="{{$.cateUrl}}/{{.NotebookUrl}}">{{.NotebookTitle}}</a>
+			<span class="views"><i class="fa fa-users" aria-hidden="true"></i>&nbsp;{{.ReadNum}} 次阅读</span>
+			<span class="comment sllpl"><i class="fa fa-comment" aria-hidden="true"></i>&nbsp;{{.LikeNum}} 人支持</span>		
+		</div>
+		<div class="readMore"><a href="{{$.postUrl}}/{{.UrlTitle}}" rel="nofollow">阅读全文</a></div>
+		<div class="clear"></div>
+	</div>
+</article>
+{{else}}
+暂无
+{{end}}

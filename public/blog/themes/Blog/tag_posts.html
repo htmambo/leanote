@@ -1,0 +1,24 @@
+{{template "header.html" .}}
+<nav class="breadcrumb"><a title="返回首页" href="{{.indexUrl}}">首页</a>&nbsp;&gt;&nbsp;<a href="{{$.tagsUrl}}">标签</a>&nbsp;&gt;&nbsp;{{.curTag}}</nav>
+<div id="main-area" class="site-content">	
+    <div class="clear"></div>
+    <div id="contentab">	
+        <section id="primary" class="content-area">
+	        <main id="main" class="site-main" role="main">
+	            <div id="post_list_box" class="border_gray">
+    	            {{template "post_abstract.html" $}}
+                </div>
+            </main>
+            <!-- 分页 -->
+            {{template "paging.html" $}}
+        </section>
+        {{template "aside.html" $}}
+    </div>
+</div>
+
+
+{{template "footer.html" $}}
+{{template "highlight.html" $}}
+
+</body>
+</html>
