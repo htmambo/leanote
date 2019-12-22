@@ -405,23 +405,26 @@ func init() {
 			return ""
 		}
 
-		if strings.Index(urlBase, "?") == -1 {
-			urlBase += "?"
-		}
 		//第一页
-		firstPageUrl := "javascript:;"
+		firstPageUrl := urlBase
 		lastPageUrl := "javascript:;"
 		prevPageUrl := "javascript:;"
 		nextPageUrl := "javascript:;"
+		if strings.Index(urlBase, "?") == -1 {
+			urlBase += "?"
+		} else {
+			urlBase += "&"
+		}
 		if totalPage > rollPage {
-			firstPageUrl = urlBase
-			lastPageUrl = urlBase + "&page=" + strconv.Itoa(totalPage)
+			lastPageUrl = urlBase + "page=" + strconv.Itoa(totalPage)
+		} else {
+			firstPageUrl = "javascript:;"
 		}
 		if nowPage > 1 {
-			prevPageUrl = urlBase + "&page=" + strconv.Itoa(nowPage-1)
+			prevPageUrl = urlBase + "page=" + strconv.Itoa(nowPage-1)
 		}
 		if nowPage < totalPage {
-			prevPageUrl = urlBase + "&page=" + strconv.Itoa(nowPage+1)
+			nextPageUrl = urlBase + "page=" + strconv.Itoa(nowPage+1)
 		}
 
 		/* 计算分页临时变量 */
@@ -431,44 +434,21 @@ func init() {
 		link_page := "<li><a href='" + firstPageUrl + "'>|&lt;</a></li>"
 		link_page += "<li><a href='" + prevPageUrl + "'>&lt;</a></li>"
 		for i := 1; i <= rollPage; i++ {
+			page := nowPage - now_cool_page + i
 			if nowPage-now_cool_page <= 0 {
-				page := i
-				if page > 0 && page != nowPage {
-					if page <= totalPage {
-						link_page += "<li><a href='" + urlBase + "&page=" + strconv.Itoa(page) + "'>" + strconv.Itoa(page) + "</a>"
-					} else {
-						break
-					}
-				} else {
-					if page > 0 {
-						link_page += "<li class='" + currentPageClass + "'><a href='javascript:;'>" + strconv.Itoa(page) + "</a></li>"
-					}
-				}
+				page = i
 			} else if nowPage+now_cool_page-1 >= totalPage {
-				page := totalPage - rollPage + i
-				if page > 0 && page != nowPage {
-					if page <= totalPage {
-						link_page += "<li><a href='" + urlBase + "&page=" + strconv.Itoa(page) + "'>" + strconv.Itoa(page) + "</a>"
-					} else {
-						break
-					}
+				page = totalPage - rollPage + i
+			}
+			if page > 0 && page != nowPage {
+				if page <= totalPage {
+					link_page += "<li><a href='" + urlBase + "&page=" + strconv.Itoa(page) + "'>" + strconv.Itoa(page) + "</a>"
 				} else {
-					if page > 0 {
-						link_page += "<li class='" + currentPageClass + "'><a href='javascript:;'>" + strconv.Itoa(page) + "</a></li>"
-					}
+					break
 				}
 			} else {
-				page := nowPage - now_cool_page + i
-				if page > 0 && page != nowPage {
-					if page <= totalPage {
-						link_page += "<li><a href='" + urlBase + "&page=" + strconv.Itoa(page) + "'>" + strconv.Itoa(page) + "</a>"
-					} else {
-						break
-					}
-				} else {
-					if page > 0 {
-						link_page += "<li class='" + currentPageClass + "'><a href='javascript:;'>" + strconv.Itoa(page) + "</a></li>"
-					}
+				if page > 0 {
+					link_page += "<li class='" + currentPageClass + "'><a href='javascript:;'>" + strconv.Itoa(page) + "</a></li>"
 				}
 			}
 		}
