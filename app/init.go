@@ -119,23 +119,23 @@ func init() {
 		s1 := t.Unix()
 		s2 := time.Now()
 		sec := s2.Unix() - s1
-		if sec<60 {
+		if sec < 60 {
 			return template.HTML("刚刚")
 		} else if sec < 1800 {
-			m := int(sec/60)
+			m := int(sec / 60)
 			return template.HTML(fmt.Sprintf("%d分钟前", m))
 		} else if sec < 3600 {
 			return template.HTML("半小时前")
 		} else if sec < 86400 {
-			h := int(sec/3600)
+			h := int(sec / 3600)
 			return template.HTML(fmt.Sprintf("%d小时前", h))
 		} else if sec < 2592000 {
-			d := int(sec/86400)
+			d := int(sec / 86400)
 			return template.HTML(fmt.Sprintf("%d天前", d))
 		} else {
 			y := int(s2.Year()) - int(t.Year())
-			m := y * 12 + int(s2.Month()) - int(t.Month())
-			if m<12 {
+			m := y*12 + int(s2.Month()) - int(t.Month())
+			if m < 12 {
 				return template.HTML(fmt.Sprintf("%d月前", m))
 			} else {
 				return template.HTML(fmt.Sprintf("%d年前", y))
@@ -397,6 +397,87 @@ func init() {
 		}
 		return template.HTML("<li class='" + preClass + "'><a href='" + preUrl + "'>Previous</a></li> <li  class='" + nextClass + "'><a href='" + nextUrl + "'>Next</a></li>")
 	}
+	/**
+	 * 添加一个自定义的分页函数
+	 */
+	revel.TemplateFuncs["showpage"] = func(urlBase string, nowPage, totalPage int, rollPage int, currentPageClass string) template.HTML {
+		if totalPage == 1 {
+			return ""
+		}
+
+		if strings.Index(urlBase, "?") == -1 {
+			urlBase += "?"
+		}
+		//第一页
+		firstPageUrl := "javascript:;"
+		lastPageUrl := "javascript:;"
+		prevPageUrl := "javascript:;"
+		nextPageUrl := "javascript:;"
+		if totalPage > rollPage {
+			firstPageUrl = urlBase
+			lastPageUrl = urlBase + "&page=" + strconv.Itoa(totalPage)
+		}
+		if nowPage > 1 {
+			prevPageUrl = urlBase + "&page=" + strconv.Itoa(nowPage-1)
+		}
+		if nowPage < totalPage {
+			prevPageUrl = urlBase + "&page=" + strconv.Itoa(nowPage+1)
+		}
+
+		/* 计算分页临时变量 */
+		now_cool_page := (rollPage + 1) / 2
+
+		//数字连接
+		link_page := "<li><a href='" + firstPageUrl + "'>|&lt;</a></li>"
+		link_page += "<li><a href='" + prevPageUrl + "'>&lt;</a></li>"
+		for i := 1; i <= rollPage; i++ {
+			if nowPage-now_cool_page <= 0 {
+				page := i
+				if page > 0 && page != nowPage {
+					if page <= totalPage {
+						link_page += "<li><a href='" + urlBase + "&page=" + strconv.Itoa(page) + "'>" + strconv.Itoa(page) + "</a>"
+					} else {
+						break
+					}
+				} else {
+					if page > 0 {
+						link_page += "<li class='" + currentPageClass + "'><a href='javascript:;'>" + strconv.Itoa(page) + "</a></li>"
+					}
+				}
+			} else if nowPage+now_cool_page-1 >= totalPage {
+				page := totalPage - rollPage + i
+				if page > 0 && page != nowPage {
+					if page <= totalPage {
+						link_page += "<li><a href='" + urlBase + "&page=" + strconv.Itoa(page) + "'>" + strconv.Itoa(page) + "</a>"
+					} else {
+						break
+					}
+				} else {
+					if page > 0 {
+						link_page += "<li class='" + currentPageClass + "'><a href='javascript:;'>" + strconv.Itoa(page) + "</a></li>"
+					}
+				}
+			} else {
+				page := nowPage - now_cool_page + i
+				if page > 0 && page != nowPage {
+					if page <= totalPage {
+						link_page += "<li><a href='" + urlBase + "&page=" + strconv.Itoa(page) + "'>" + strconv.Itoa(page) + "</a>"
+					} else {
+						break
+					}
+				} else {
+					if page > 0 {
+						link_page += "<li class='" + currentPageClass + "'><a href='javascript:;'>" + strconv.Itoa(page) + "</a></li>"
+					}
+				}
+			}
+		}
+		link_page += "<li><a href='" + nextPageUrl + "'>&gt;</a></li>"
+		link_page += "<li><a href='" + lastPageUrl + "'>&gt;|</a></li>"
+
+		return template.HTML(link_page)
+	}
+
 	// life
 	// https://groups.google.com/forum/#!topic/golang-nuts/OEdSDgEC7js
 	// http://play.golang.org/p/snygrVpQva
