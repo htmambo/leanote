@@ -442,7 +442,7 @@ func init() {
 			}
 			if page > 0 && page != nowPage {
 				if page <= totalPage {
-					link_page += "<li><a href='" + urlBase + "&page=" + strconv.Itoa(page) + "'>" + strconv.Itoa(page) + "</a>"
+					link_page += "<li><a href='" + urlBase + "page=" + strconv.Itoa(page) + "'>" + strconv.Itoa(page) + "</a>"
 				} else {
 					break
 				}
