@@ -65,12 +65,17 @@ func (c ApiFile) GetImage(fileId string) revel.Result {
 	if path == "" {
 		return c.RenderText("")
 	}
-	//fn := revel.BasePath + "/" + strings.TrimLeft(path, "/")
 	fn := strings.TrimLeft(path, "/")
 	//files/427/540817e099c37b583c000001/
-	return c.Redirect("http://img.imzhp.com/" + fn[35:] + "-web")
-	//file, _ := os.Open(fn)
-	//return c.RenderFile(file, revel.Inline) // revel.Attachment
+	ua := c.Request.GetHttpHeader("User-Agent")
+	if strings.Index(ua, "Needle") != -1 {
+		// 实际上，应该返回的是完事的URL路径，目前懒得写完整的代码了，先这样偷懒一下
+		fn = revel.BasePath + "/" + strings.TrimLeft(path, "/")
+		file, _ := os.Open(fn)
+		return c.RenderFile(file, revel.Inline) // revel.Attachment
+	} else {
+		return c.Redirect("http://img.imzhp.com/" + fn[35:] + "-web")
+	}
 }
 
 // 下载附件
