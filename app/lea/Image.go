@@ -1,15 +1,16 @@
 package lea
 
 import (
+	"fmt"
 	"github.com/revel/revel"
 	"image"
 	"image/draw"
 	"image/jpeg"
 	"image/png"
 	"net/http"
-	"fmt"
-    "os"
+	"os"
 )
+
 /*
 
 // 传源路径, 在该路径下写入另一个gif
@@ -129,7 +130,7 @@ func waterJpeg(path string) (ok bool, transPath string) {
 
 	wmb_file, err := os.Open(water)
 	if err != nil {
-		fmt.Println("打开水印图片"+water+"出错")
+		fmt.Println("打开水印图片" + water + "出错")
 		fmt.Println(err)
 		return ok, path
 	}
@@ -182,7 +183,7 @@ func waterPng(path string) (ok bool, transPath string) {
 
 	wmb_file, err := os.Open(water)
 	if err != nil {
-		fmt.Println("打开水印图片"+water+"出错")
+		fmt.Println("打开水印图片" + water + "出错")
 		fmt.Println(err)
 		return ok, path
 	}
@@ -225,24 +226,25 @@ func TransToGif(path string, maxWidth uint, afterDelete bool) (ok bool, transPat
 		return ok, path
 	}
 
-
 	buff := make([]byte, 512)
 
 	_, err = img_file.Read(buff)
 	if err != nil {
-		fmt.Println("读取源文件"+path+"时出错");
+		fmt.Println("读取源文件" + path + "时出错")
 		fmt.Println(err)
-		return ok,path
+		return ok, path
 	}
+	//水印的活交给七牛来完成
+	return ok, path
 	imgType := http.DetectContentType(buff)
 	if imgType == "image/jpeg" {
 		_, toPathGif := waterJpeg(path)
-		return ok,toPathGif
+		return ok, toPathGif
 	} else if imgType == "image/png" {
 		_, toPathGif := waterPng(path)
-		return ok,toPathGif
+		return ok, toPathGif
 	} else {
-		fmt.Println("不支持的图片类型"+imgType)
-		return ok,path
+		fmt.Println("不支持的图片类型" + imgType)
+		return ok, path
 	}
 }
