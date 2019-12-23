@@ -65,9 +65,12 @@ func (c ApiFile) GetImage(fileId string) revel.Result {
 	if path == "" {
 		return c.RenderText("")
 	}
-	fn := revel.BasePath + "/" + strings.TrimLeft(path, "/")
-	file, _ := os.Open(fn)
-	return c.RenderFile(file, revel.Inline) // revel.Attachment
+	//fn := revel.BasePath + "/" + strings.TrimLeft(path, "/")
+	fn := strings.TrimLeft(path, "/")
+	//files/427/540817e099c37b583c000001/
+	return c.Redirect("http://img.imzhp.com/" + fn + "-web")
+	//file, _ := os.Open(fn)
+	//return c.RenderFile(file, revel.Inline) // revel.Attachment
 }
 
 // 下载附件
