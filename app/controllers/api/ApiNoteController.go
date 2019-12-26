@@ -265,12 +265,11 @@ func (c ApiNote) AddNote(noteOrContent info.ApiNote) revel.Result {
 						// 建立映射
 						file.FileId = fileId
 						noteOrContent.Files[i] = file
-						if noteOrContent.ImgSrc == "" {
-							noteOrContent.ImgSrc = "/api/file/getImage?fileId=" + fileId
-						}
 
 						if file.IsAttach {
 							attachNum++
+						} else if noteOrContent.ImgSrc == "" {
+							noteOrContent.ImgSrc = "/api/file/getImage?fileId=" + fileId
 						}
 					}
 				} else {
@@ -410,7 +409,8 @@ func (c ApiNote) UpdateNote(noteOrContent info.ApiNote) revel.Result {
 							// 建立映射
 							file.FileId = fileId
 							noteOrContent.Files[i] = file
-							if note.ImgSrc == "" {
+							if file.IsAttach {
+							} else if note.ImgSrc == "" {
 								noteOrContent.ImgSrc = "/api/file/getImage?fileId=" + fileId
 							}
 						}
