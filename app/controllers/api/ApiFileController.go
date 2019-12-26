@@ -68,7 +68,7 @@ func (c ApiFile) GetImage(fileId string) revel.Result {
 	fn := strings.TrimLeft(path, "/")
 	//files/427/540817e099c37b583c000001/
 	ua := c.Request.GetHttpHeader("User-Agent")
-	if isDev, _ := revel.Config.Bool("mode.dev"); !isDev {
+	if useQn, _ := revel.Config.Bool("qiniu.enabled"); !useQn {
 		ua = "im Needle"
 	}
 	if strings.Index(ua, "Needle") != -1 {
