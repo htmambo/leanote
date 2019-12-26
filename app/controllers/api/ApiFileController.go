@@ -77,7 +77,7 @@ func (c ApiFile) GetImage(fileId string) revel.Result {
 		file, _ := os.Open(fn)
 		return c.RenderFile(file, revel.Inline) // revel.Attachment
 	} else {
-		return c.Redirect("http://img.imzhp.com/" + fn[35:] + "-web")
+		return c.Redirect("https://img.imzhp.com/" + fn[35:] + "-web")
 	}
 }
 
