@@ -68,6 +68,9 @@ func (c ApiFile) GetImage(fileId string) revel.Result {
 	fn := strings.TrimLeft(path, "/")
 	//files/427/540817e099c37b583c000001/
 	ua := c.Request.GetHttpHeader("User-Agent")
+	if isDev, _ := revel.Config.Bool("mode.dev"); !isDev {
+		ua = "im Needle"
+	}
 	if strings.Index(ua, "Needle") != -1 {
 		// 实际上，应该返回的是完事的URL路径，目前懒得写完整的代码了，先这样偷懒一下
 		fn = revel.BasePath + "/" + strings.TrimLeft(path, "/")

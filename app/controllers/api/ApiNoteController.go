@@ -8,9 +8,9 @@ import (
 	"gopkg.in/mgo.v2/bson"
 	"os"
 	"os/exec"
+	"regexp"
 	// "strings"
 	"time"
-	"regexp"
 	//	"github.com/htmambo/leanote/app/types"
 	//	"io/ioutil"
 	//	"fmt"
@@ -168,22 +168,22 @@ func (c ApiNote) fixPostNotecontent(noteOrContent *info.ApiNote) {
 				if !file.IsAttach {
 					// <img src="https://"
 					// ![](http://demo.leanote.top/api/file/getImage?fileId=5863219465b68e4fd5000001)
-					reg, _ := regexp.Compile(`https*://[^/]*?/api/file/getImage\?fileId=`+file.LocalFileId)
+					reg, _ := regexp.Compile(`https*://[^/]*?/api/file/getImage\?fileId=` + file.LocalFileId)
 					// Log(reg)
-					noteOrContent.Content = reg.ReplaceAllString(noteOrContent.Content, `/api/file/getImage?fileId=`+file.FileId)  
+					noteOrContent.Content = reg.ReplaceAllString(noteOrContent.Content, `/api/file/getImage?fileId=`+file.FileId)
 
 					// // "http://a.com/api/file/getImage?fileId=localId" => /api/file/getImage?fileId=serverId
-					// noteOrContent.Content = strings.Replace(noteOrContent.Content, 
-					// 	baseUrl + "/api/file/getImage?fileId="+file.LocalFileId, 
+					// noteOrContent.Content = strings.Replace(noteOrContent.Content,
+					// 	baseUrl + "/api/file/getImage?fileId="+file.LocalFileId,
 					// 	"/api/file/getImage?fileId="+file.FileId, -1)
 				} else {
-					reg, _ := regexp.Compile(`https*://[^/]*?/api/file/getAttach\?fileId=`+file.LocalFileId)
+					reg, _ := regexp.Compile(`https*://[^/]*?/api/file/getAttach\?fileId=` + file.LocalFileId)
 					// Log(reg)
-					noteOrContent.Content = reg.ReplaceAllString(noteOrContent.Content, `/api/file/getAttach?fileId=`+file.FileId)  
+					noteOrContent.Content = reg.ReplaceAllString(noteOrContent.Content, `/api/file/getAttach?fileId=`+file.FileId)
 					/*
-					noteOrContent.Content = strings.Replace(noteOrContent.Content, 
-						baseUrl + "/api/file/getAttach?fileId="+file.LocalFileId, 
-						"/api/file/getAttach?fileId="+file.FileId, -1)
+						noteOrContent.Content = strings.Replace(noteOrContent.Content,
+							baseUrl + "/api/file/getAttach?fileId="+file.LocalFileId,
+							"/api/file/getAttach?fileId="+file.FileId, -1)
 					*/
 				}
 			}
@@ -265,7 +265,7 @@ func (c ApiNote) AddNote(noteOrContent info.ApiNote) revel.Result {
 						// 建立映射
 						file.FileId = fileId
 						noteOrContent.Files[i] = file
-						if(noteOrContent.ImgSrc == "") {
+						if noteOrContent.ImgSrc == "" {
 							noteOrContent.ImgSrc = "/api/file/getImage?fileId=" + fileId
 						}
 
@@ -288,12 +288,12 @@ func (c ApiNote) AddNote(noteOrContent info.ApiNote) revel.Result {
 	//	return c.RenderJSON(re)
 
 	note := info.Note{UserId: userId,
-		NoteId:     noteId,
-		NotebookId: bson.ObjectIdHex(noteOrContent.NotebookId),
-		Title:      noteOrContent.Title,
-		Tags:       noteOrContent.Tags,
-		Desc:       noteOrContent.Desc,
-		ImgSrc:     noteOrContent.ImgSrc,
+		NoteId:      noteId,
+		NotebookId:  bson.ObjectIdHex(noteOrContent.NotebookId),
+		Title:       noteOrContent.Title,
+		Tags:        noteOrContent.Tags,
+		Desc:        noteOrContent.Desc,
+		ImgSrc:      noteOrContent.ImgSrc,
 		IsBlog:      noteOrContent.IsBlog,
 		IsMarkdown:  noteOrContent.IsMarkdown,
 		AttachNum:   attachNum,
@@ -410,7 +410,7 @@ func (c ApiNote) UpdateNote(noteOrContent info.ApiNote) revel.Result {
 							// 建立映射
 							file.FileId = fileId
 							noteOrContent.Files[i] = file
-							if(noteOrContent.ImgSrc == "" ) {
+							if note.ImgSrc == "" {
 								noteOrContent.ImgSrc = "/api/file/getImage?fileId=" + fileId
 							}
 						}
@@ -441,7 +441,7 @@ func (c ApiNote) UpdateNote(noteOrContent info.ApiNote) revel.Result {
 			noteUpdate["ImgSrc"] = noteOrContent.ImgSrc
 		}
 	*/
-	if(noteOrContent.ImgSrc != "") {
+	if noteOrContent.ImgSrc != "" {
 		needUpdateNote = true
 		noteUpdate["ImgSrc"] = noteOrContent.ImgSrc
 	}
