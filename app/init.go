@@ -150,7 +150,7 @@ func init() {
 	revel.TemplateFuncs["showForDescription"] = func(str string) template.HTML {
 		str = strings.Replace(template.HTMLEscapeString(str), "\n", "", -1)
 		str = strings.Replace(str, "\r", "", -1)
-		return str
+		return template.HTML(str)
 	}
 
 	// interface是否有该字段
