@@ -144,6 +144,15 @@ func init() {
 		}
 	}
 
+	/**
+	 * 清除换行符以方便在见面的description中显示
+	 */
+	revel.TemplateFuncs["showForDescription"] = func(str string) template.HTML {
+		str = strings.Replace(template.HTMLEscapeString(str), "\n", "", -1)
+		str = strings.Replace(str, "\r", "", -1)
+		return str
+	}
+
 	// interface是否有该字段
 	revel.TemplateFuncs["has"] = func(i interface{}, key string) bool {
 		t := reflect.TypeOf(i)
