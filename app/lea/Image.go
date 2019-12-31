@@ -275,7 +275,7 @@ func upload_qiniu(filePath string) (ok bool, transPath string) {
 	//    华南    storage.ZoneHuanan
 	//    北美    storage.ZoneBeimei
 	//七牛云存储空间设置首页有存储区域
-	cfg.Zone = &storage.ZoneHuanan
+	cfg.Zone = &storage.ZoneHuadong
 	// 是否使用https域名
 	cfg.UseHTTPS = false
 	// 上传是否使用CDN上传加速
