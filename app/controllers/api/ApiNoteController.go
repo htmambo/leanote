@@ -180,7 +180,12 @@ func (c ApiNote) fixPostNotecontent(noteOrContent *info.ApiNote) {
 				} else {
 					reg, _ := regexp.Compile(`https*://[^/]*?/api/file/getAttach\?fileId=` + file.LocalFileId)
 					// Log(reg)
-					noteOrContent.Content = reg.ReplaceAllString(noteOrContent.Content, `/api/file/getAttach?fileId=`+file.FileId)
+					// TODO 要转换成七牛云的URL
+					if len(file.Url) > 0 {
+						noteOrContent.Content = reg.ReplaceAllString(noteOrContent.Content, file.Url+revel.Config.StringDefault("qiniu.img-stylename", ""))
+					} else {
+						noteOrContent.Content = reg.ReplaceAllString(noteOrContent.Content, `/api/file/getAttach?fileId=`+file.FileId)
+					}
 					/*
 						noteOrContent.Content = strings.Replace(noteOrContent.Content,
 							baseUrl + "/api/file/getAttach?fileId="+file.LocalFileId,
@@ -265,8 +270,11 @@ func (c ApiNote) AddNote(noteOrContent info.ApiNote) revel.Result {
 					} else {
 						// 建立映射
 						file.FileId = fileId
+						// todo 要修改的地方有些多，比如，七牛云的URL要不要写入数据库？然后替换内容的时候要不要处理？
+						if revel.Config.BoolDefault("qiniu.enabled", false) && url[0:5] != "/api/" {
+							file.Url = url
+						}
 						noteOrContent.Files[i] = file
-
 						if file.IsAttach {
 							attachNum++
 						} else if noteOrContent.ImgSrc == "" {
@@ -414,11 +422,16 @@ func (c ApiNote) UpdateNote(noteOrContent info.ApiNote) revel.Result {
 						} else {
 							// 建立映射
 							file.FileId = fileId
+							// todo 要修改的地方有些多，比如，七牛云的URL要不要写入数据库？然后替换内容的时候要不要处理？
+							if revel.Config.BoolDefault("qiniu.enabled", false) && url[0:5] != "/api/" {
+								file.Url = url
+							}
 							noteOrContent.Files[i] = file
 							if file.IsAttach {
 							} else if note.ImgSrc == "" {
 								if revel.Config.BoolDefault("qiniu.enabled", false) {
-									noteOrContent.ImgSrc = url + "-list"
+									fmt.Println("开启了七牛云上传功能：" + url)
+									noteOrContent.ImgSrc = url + revel.Config.StringDefault("qiniu.list-stylename", "")
 								} else {
 									noteOrContent.ImgSrc = "/api/file/getImage?fileId=" + fileId
 								}

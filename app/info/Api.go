@@ -13,8 +13,9 @@ type NoteFile struct {
 	LocalFileId string // 客户端Id
 	Type        string // images/png, doc, xls, 根据fileName确定
 	Title       string
-	HasBody     bool // 传过来的值是否要更新内容
-	IsAttach    bool // 是否是附件, 不是附件就是图片
+	Url         string // 文件的URL，只有图片文件才会使用到
+	HasBody     bool   // 传过来的值是否要更新内容
+	IsAttach    bool   // 是否是附件, 不是附件就是图片
 }
 type ApiNote struct {
 	NoteId     string
