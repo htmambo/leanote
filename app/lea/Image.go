@@ -239,10 +239,10 @@ func TransToGif(path string, maxWidth uint, afterDelete bool) (ok bool, transPat
 		return ok, path
 	}
 	//水印的活交给七牛来完成
-	if revel.Config.Bool("qiniu.enabled") {
+	if revel.Config.BoolDefault("qiniu.enabled", false) {
 		//使用七牛云
 		ok, fileurl := upload_qiniu(path)
-		if ok != nil {
+		if !ok {
 			return ok, fileurl
 		}
 	}
