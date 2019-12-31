@@ -242,7 +242,7 @@ func TransToGif(path string, maxWidth uint, afterDelete bool) (ok bool, transPat
 	if revel.Config.BoolDefault("qiniu.enabled", false) {
 		//使用七牛云
 		ok, fileurl := upload_qiniu(path)
-		if !ok {
+		if ok {
 			return ok, fileurl
 		}
 	}
@@ -292,7 +292,10 @@ func upload_qiniu(filePath string) (ok bool, transPath string) {
 	key := strings.TrimLeft(filePath[35:], "/")
 	err := formUploader.PutFile(context.Background(), &ret, upToken, key, filePath, &putExtra)
 	if err != nil {
+		fmt.Println("上传七牛云失败")
+		fmt.Println(err)
 		return
 	}
+	fmt.Println("上传七牛云成功：" + key)
 	return ok, revel.Config.StringDefault("qiniu.domain", "https://img.imzhp.com/") + key
 }

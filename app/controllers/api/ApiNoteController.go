@@ -1,6 +1,7 @@
 package api
 
 import (
+	"fmt"
 	"github.com/revel/revel"
 	//	"encoding/json"
 	"github.com/htmambo/leanote/app/info"
@@ -270,6 +271,7 @@ func (c ApiNote) AddNote(noteOrContent info.ApiNote) revel.Result {
 							attachNum++
 						} else if noteOrContent.ImgSrc == "" {
 							if revel.Config.BoolDefault("qiniu.enabled", false) {
+								fmt.Println("开启了七牛云上传功能：" + url)
 								noteOrContent.ImgSrc = url + revel.Config.StringDefault("qiniu.list-stylename", "")
 							} else {
 								noteOrContent.ImgSrc = "/api/file/getImage?fileId=" + fileId
