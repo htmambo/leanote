@@ -1,7 +1,6 @@
 package api
 
 import (
-	"fmt"
 	"github.com/revel/revel"
 	//	"encoding/json"
 	"github.com/htmambo/leanote/app/info"
@@ -280,7 +279,7 @@ func (c ApiNote) AddNote(noteOrContent info.ApiNote) revel.Result {
 							attachNum++
 						} else if noteOrContent.ImgSrc == "" {
 							if revel.Config.BoolDefault("qiniu.enabled", false) {
-								fmt.Println("开启了七牛云上传功能：" + url)
+								//fmt.Println("开启了七牛云上传功能：" + url)
 								noteOrContent.ImgSrc = url + revel.Config.StringDefault("qiniu.list-stylename", "")
 							} else {
 								noteOrContent.ImgSrc = "/api/file/getImage?fileId=" + fileId
@@ -424,7 +423,7 @@ func (c ApiNote) UpdateNote(noteOrContent info.ApiNote) revel.Result {
 							// 建立映射
 							file.FileId = fileId
 							// todo 要修改的地方有些多，比如，七牛云的URL要不要写入数据库？然后替换内容的时候要不要处理？
-							fmt.Println(url[0:5])
+							//fmt.Println(url[0:5])
 							if revel.Config.BoolDefault("qiniu.enabled", false) && url[0:5] != "/api/" {
 								file.Url = url
 							}
@@ -432,7 +431,7 @@ func (c ApiNote) UpdateNote(noteOrContent info.ApiNote) revel.Result {
 							if file.IsAttach {
 							} else if note.ImgSrc == "" {
 								if revel.Config.BoolDefault("qiniu.enabled", false) {
-									fmt.Println("开启了七牛云上传功能：" + url)
+									//fmt.Println("开启了七牛云上传功能：" + url)
 									noteOrContent.ImgSrc = url + revel.Config.StringDefault("qiniu.list-stylename", "")
 								} else {
 									noteOrContent.ImgSrc = "/api/file/getImage?fileId=" + fileId

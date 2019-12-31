@@ -1,18 +1,13 @@
 package api
 
 import (
-	"github.com/revel/revel"
-	"gopkg.in/mgo.v2/bson"
-	//	"encoding/json"
 	"github.com/htmambo/leanote/app/controllers"
 	"github.com/htmambo/leanote/app/info"
 	. "github.com/htmambo/leanote/app/lea"
-	"os"
-	//	"fmt"
+	"github.com/revel/revel"
+	"gopkg.in/mgo.v2/bson"
 	"io/ioutil"
-	//	"fmt"
-	//	"math"
-	//	"strconv"
+	"os"
 	"strings"
 )
 

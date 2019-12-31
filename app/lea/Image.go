@@ -2,7 +2,6 @@ package lea
 
 import (
 	"context"
-	"fmt"
 	"github.com/qiniu/api.v7/auth/qbox"
 	"github.com/qiniu/api.v7/storage"
 	"github.com/revel/revel"
@@ -15,134 +14,34 @@ import (
 	"strings"
 )
 
-/*
-
-// 传源路径, 在该路径下写入另一个gif
-// maxWidth 最大宽度, == 0表示不改变宽度
-// 成功后删除
-func TransToGif(path string, maxWidth uint, afterDelete bool) (ok bool, transPath string) {
-	ok = false
-	transPath = path
-	wand.Genesis()
-    defer wand.Terminus()
-
-    w := wand.NewMagickWand()
-    defer w.Destroy()
-
-    if err := w.ReadImage(path); err != nil {
-    	fmt.Println(err);
-    	return;
-    }
-
-    width := w.ImageWidth()
-    height := w.ImageHeight()
-    if maxWidth != 0 {
-	    if width > maxWidth {
-	    	// 等比缩放
-	    	height = height * maxWidth/width
-	    	width = maxWidth
-	    }
-    }
-
-	w.SetImageFormat("GIF");
-
-    if err := paint.Thumbnail(w, width, height); err != nil {
-    	fmt.Println(err);
-    	return;
-    }
-
-    // 判断是否是gif图片, 是就不用转换了
-	baseName, ext := SplitFilename(path)
-    var toPath string
-    if(ext == ".gif") {
-	    toPath = baseName + "_2" + ext
-    } else {
-	    toPath = TransferExt(path, ".gif");
-    }
-
-    if err := w.WriteImage(toPath); err != nil {
-    	fmt.Println(err);
-    	return;
-    }
-
-    if afterDelete {
-    	os.Remove(path)
-    }
-
-    ok = true
-    transPath = toPath
-
-    return
-}
-
-// 缩小到
-// 未用
-func Reset(path string, maxWidth uint) (ok bool, transPath string){
-	wand.Genesis()
-    defer wand.Terminus()
-
-    w := wand.NewMagickWand()
-    defer w.Destroy()
-
-    if err := w.ReadImage(path); err != nil {
-    	fmt.Println(err);
-    	return;
-    }
-
-    width := w.ImageWidth()
-    height := w.ImageHeight()
-    if maxWidth != 0 {
-	    if width > maxWidth {
-	    	// 等比缩放
-	    	height = height * maxWidth/width
-	    	width = maxWidth
-	    }
-    }
-    if err := paint.Thumbnail(w, width, height); err != nil {
-    	fmt.Println(err);
-    	return;
-    }
-
-    toPath := TransferExt(path, ".gif");
-    if err := w.WriteImage(toPath); err != nil {
-    	fmt.Println(err);
-    	return;
-    }
-
-    ok = true
-    transPath = toPath
-
-    return
-}
-*/
 func waterJpeg(path string) (ok bool, transPath string) {
 	// 水印图片文件
 	water := revel.BasePath + "/public/images/watermark.png"
 	img_file, err := os.Open(path)
 	defer img_file.Close()
 	if err != nil {
-		fmt.Println("打开图片出错")
-		fmt.Println(err)
+		//fmt.Println("打开图片出错")
+		//fmt.Println(err)
 		return ok, path
 	}
 	img, err := jpeg.Decode(img_file)
 	if err != nil {
-		fmt.Println("把图片解码为结构体时出错")
-		fmt.Println(img)
+		//fmt.Println("把图片解码为结构体时出错")
+		//fmt.Println(img)
 		return ok, path
 	}
 
 	wmb_file, err := os.Open(water)
 	if err != nil {
-		fmt.Println("打开水印图片" + water + "出错")
-		fmt.Println(err)
+		//fmt.Println("打开水印图片" + water + "出错")
+		//fmt.Println(err)
 		return ok, path
 	}
 	wmb_img, err := png.Decode(wmb_file)
 	if err != nil {
 		defer wmb_file.Close()
-		fmt.Println("把水印图片解码为结构体时出错")
-		fmt.Println(err)
+		//fmt.Println("把水印图片解码为结构体时出错")
+		//fmt.Println(err)
 		return ok, path
 	}
 
@@ -159,7 +58,7 @@ func waterJpeg(path string) (ok bool, transPath string) {
 	draw.Draw(m, wmb_img.Bounds().Add(offset), wmb_img, image.ZP, draw.Over)
 
 	//生成新图片new.jpg,并设置图片质量
-	fmt.Println("写入文件")
+	//fmt.Println("写入文件")
 	img_sfile, err := os.OpenFile(path, os.O_RDWR|os.O_TRUNC, 0)
 	//n, _ := img_file.Seek(0, os.SEEK_END)
 	jpeg.Encode(img_sfile, m, &jpeg.Options{100})
@@ -174,28 +73,28 @@ func waterPng(path string) (ok bool, transPath string) {
 	img_file, err := os.Open(path)
 	defer img_file.Close()
 	if err != nil {
-		fmt.Println("打开图片出错")
-		fmt.Println(err)
+		//fmt.Println("打开图片出错")
+		//fmt.Println(err)
 		return ok, path
 	}
 	img, err := png.Decode(img_file)
 	if err != nil {
-		fmt.Println("把图片解码为结构体时出错")
-		fmt.Println(img)
+		//fmt.Println("把图片解码为结构体时出错")
+		//fmt.Println(img)
 		return ok, path
 	}
 
 	wmb_file, err := os.Open(water)
 	if err != nil {
-		fmt.Println("打开水印图片" + water + "出错")
-		fmt.Println(err)
+		//fmt.Println("打开水印图片" + water + "出错")
+		//fmt.Println(err)
 		return ok, path
 	}
 	wmb_img, err := png.Decode(wmb_file)
 	if err != nil {
 		defer wmb_file.Close()
-		fmt.Println("把水印图片解码为结构体时出错")
-		fmt.Println(err)
+		//fmt.Println("把水印图片解码为结构体时出错")
+		//fmt.Println(err)
 		return ok, path
 	}
 
@@ -212,7 +111,7 @@ func waterPng(path string) (ok bool, transPath string) {
 	draw.Draw(m, wmb_img.Bounds().Add(offset), wmb_img, image.ZP, draw.Over)
 
 	//生成新图片new.jpg,并设置图片质量
-	fmt.Println("写入文件")
+	//fmt.Println("写入文件")
 	img_sfile, err := os.OpenFile(path, os.O_RDWR|os.O_TRUNC, 0)
 	//n, _ := img_file.Seek(0, os.SEEK_END)
 	png.Encode(img_sfile, m)
@@ -225,8 +124,8 @@ func TransToGif(path string, maxWidth uint, afterDelete bool) (ok bool, transPat
 	img_file, err := os.Open(path)
 	defer img_file.Close()
 	if err != nil {
-		fmt.Println("打开图片出错")
-		fmt.Println(err)
+		//fmt.Println("打开图片出错")
+		//fmt.Println(err)
 		return ok, path
 	}
 
@@ -234,8 +133,8 @@ func TransToGif(path string, maxWidth uint, afterDelete bool) (ok bool, transPat
 
 	_, err = img_file.Read(buff)
 	if err != nil {
-		fmt.Println("读取源文件" + path + "时出错")
-		fmt.Println(err)
+		//fmt.Println("读取源文件" + path + "时出错")
+		//fmt.Println(err)
 		return ok, path
 	}
 	//水印的活交给七牛来完成
@@ -243,7 +142,7 @@ func TransToGif(path string, maxWidth uint, afterDelete bool) (ok bool, transPat
 		//使用七牛云
 		ok, fileurl := upload_qiniu(path)
 		if ok {
-			fmt.Println("七牛云图片链接 ：" + fileurl)
+			//fmt.Println("七牛云图片链接 ：" + fileurl)
 			return ok, fileurl
 		}
 	}
@@ -255,7 +154,7 @@ func TransToGif(path string, maxWidth uint, afterDelete bool) (ok bool, transPat
 		_, toPathGif := waterPng(path)
 		return ok, toPathGif
 	} else {
-		fmt.Println("不支持的图片类型" + imgType)
+		//fmt.Println("不支持的图片类型" + imgType)
 		return ok, path
 	}
 }
@@ -294,10 +193,10 @@ func upload_qiniu(filePath string) (ok bool, transPath string) {
 	key := strings.TrimLeft(filePath[pos:], "/")
 	err := formUploader.PutFile(context.Background(), &ret, upToken, key, filePath, &putExtra)
 	if err != nil {
-		fmt.Println("上传七牛云失败")
-		fmt.Println(err)
+		//fmt.Println("上传七牛云失败")
+		//fmt.Println(err)
 		return
 	}
-	fmt.Println("上传" + filePath + "到七牛云成功：" + key)
+	//fmt.Println("上传" + filePath + "到七牛云成功：" + key)
 	return true, revel.Config.StringDefault("qiniu.domain", "https://img.imzhp.com/") + key
 }

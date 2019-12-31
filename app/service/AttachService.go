@@ -1,7 +1,6 @@
 package service
 
 import (
-	"fmt"
 	"github.com/htmambo/leanote/app/db"
 	"github.com/htmambo/leanote/app/info"
 	. "github.com/htmambo/leanote/app/lea"
@@ -240,7 +239,6 @@ func (this *AttachService) UpdateOrDeleteAttachApi(noteId, userId string, files 
 		if !nowAttachs[fileId] {
 			// 需要删除的
 			// TODO 权限验证去掉
-			fmt.Println("需要删除文件：" + fileId)
 			this.DeleteAttach(fileId, userId)
 		}
 	}
