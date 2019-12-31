@@ -289,7 +289,8 @@ func upload_qiniu(filePath string) (ok bool, transPath string) {
 			"x:name": "github logo",
 		},
 	}
-	key := strings.TrimLeft(filePath[35:], "/")
+	pos := len(revel.BasePath) + 35
+	key := strings.TrimLeft(filePath[pos:], "/")
 	err := formUploader.PutFile(context.Background(), &ret, upToken, key, filePath, &putExtra)
 	if err != nil {
 		fmt.Println("上传七牛云失败")
