@@ -297,6 +297,6 @@ func upload_qiniu(filePath string) (ok bool, transPath string) {
 		fmt.Println(err)
 		return
 	}
-	fmt.Println("上传七牛云成功：" + key)
+	fmt.Println("上传" + filePath + "到七牛云成功：" + key)
 	return ok, revel.Config.StringDefault("qiniu.domain", "https://img.imzhp.com/") + key
 }
