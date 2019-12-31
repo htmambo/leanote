@@ -290,6 +290,9 @@ func upload_qiniu(filePath string) (ok bool, transPath string) {
 		},
 	}
 	key := strings.TrimLeft(filePath[35:], "/")
-	ok = formUploader.PutFile(context.Background(), &ret, upToken, key, filePath, &putExtra)
+	err := formUploader.PutFile(context.Background(), &ret, upToken, key, filePath, &putExtra)
+	if err != nil {
+		return
+	}
 	return ok, revel.Config.StringDefault("qiniu.domain", "https://img.imzhp.com/") + key
 }
