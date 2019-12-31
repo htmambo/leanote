@@ -171,7 +171,12 @@ func (c ApiNote) fixPostNotecontent(noteOrContent *info.ApiNote) {
 					// ![](http://demo.leanote.top/api/file/getImage?fileId=5863219465b68e4fd5000001)
 					reg, _ := regexp.Compile(`https*://[^/]*?/api/file/getImage\?fileId=` + file.LocalFileId)
 					// Log(reg)
-					noteOrContent.Content = reg.ReplaceAllString(noteOrContent.Content, `/api/file/getImage?fileId=`+file.FileId)
+					// TODO 要转换成七牛云的URL
+					if len(file.Url) > 0 {
+						noteOrContent.Content = reg.ReplaceAllString(noteOrContent.Content, file.Url+revel.Config.StringDefault("qiniu.img-stylename", ""))
+					} else {
+						noteOrContent.Content = reg.ReplaceAllString(noteOrContent.Content, `/api/file/getImage?fileId=`+file.FileId)
+					}
 
 					// // "http://a.com/api/file/getImage?fileId=localId" => /api/file/getImage?fileId=serverId
 					// noteOrContent.Content = strings.Replace(noteOrContent.Content,
@@ -180,12 +185,8 @@ func (c ApiNote) fixPostNotecontent(noteOrContent *info.ApiNote) {
 				} else {
 					reg, _ := regexp.Compile(`https*://[^/]*?/api/file/getAttach\?fileId=` + file.LocalFileId)
 					// Log(reg)
-					// TODO 要转换成七牛云的URL
-					if len(file.Url) > 0 {
-						noteOrContent.Content = reg.ReplaceAllString(noteOrContent.Content, file.Url+revel.Config.StringDefault("qiniu.img-stylename", ""))
-					} else {
-						noteOrContent.Content = reg.ReplaceAllString(noteOrContent.Content, `/api/file/getAttach?fileId=`+file.FileId)
-					}
+					noteOrContent.Content = reg.ReplaceAllString(noteOrContent.Content, `/api/file/getAttach?fileId=`+file.FileId)
+
 					/*
 						noteOrContent.Content = strings.Replace(noteOrContent.Content,
 							baseUrl + "/api/file/getAttach?fileId="+file.LocalFileId,
