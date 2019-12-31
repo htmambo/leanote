@@ -1,7 +1,10 @@
 package lea
 
 import (
+	"context"
 	"fmt"
+	"github.com/qiniu/api.v7/auth/qbox"
+	"github.com/qiniu/api.v7/storage"
 	"github.com/revel/revel"
 	"image"
 	"image/draw"
@@ -9,6 +12,7 @@ import (
 	"image/png"
 	"net/http"
 	"os"
+	"strings"
 )
 
 /*
@@ -235,7 +239,13 @@ func TransToGif(path string, maxWidth uint, afterDelete bool) (ok bool, transPat
 		return ok, path
 	}
 	//水印的活交给七牛来完成
-	return ok, path
+	if revel.Config.Bool("qiniu.enabled") {
+		//使用七牛云
+		ok, fileurl := upload_qiniu(path)
+		if ok != nil {
+			return ok, fileurl
+		}
+	}
 	imgType := http.DetectContentType(buff)
 	if imgType == "image/jpeg" {
 		_, toPathGif := waterJpeg(path)
@@ -247,4 +257,39 @@ func TransToGif(path string, maxWidth uint, afterDelete bool) (ok bool, transPat
 		fmt.Println("不支持的图片类型" + imgType)
 		return ok, path
 	}
+}
+
+func upload_qiniu(filePath string) (ok bool, transPath string) {
+	//上传凭证,关于凭证这块大家可以去看看官方文档
+	putPolicy := storage.PutPolicy{
+		Scope: revel.Config.StringDefault("qiniu.bucket", ""),
+	}
+	mac := qbox.NewMac(revel.Config.StringDefault("qiniu.access_key", ""), revel.Config.StringDefault("qiniu.secret_key", ""))
+	upToken := putPolicy.UploadToken(mac)
+	cfg := storage.Config{}
+	//空间对应机房
+	//其中关于Zone对象和机房的关系如下：
+	//    机房    Zone对象
+	//    华东    storage.ZoneHuadong
+	//    华北    storage.ZoneHuabei
+	//    华南    storage.ZoneHuanan
+	//    北美    storage.ZoneBeimei
+	//七牛云存储空间设置首页有存储区域
+	cfg.Zone = &storage.ZoneHuanan
+	// 是否使用https域名
+	cfg.UseHTTPS = false
+	// 上传是否使用CDN上传加速
+	cfg.UseCdnDomains = false
+	//构建上传表单对象
+	formUploader := storage.NewFormUploader(&cfg)
+	ret := storage.PutRet{}
+	// 可选
+	putExtra := storage.PutExtra{
+		Params: map[string]string{
+			"x:name": "github logo",
+		},
+	}
+	key := strings.TrimLeft(filePath[35:], "/")
+	ok = formUploader.PutFile(context.Background(), &ret, upToken, key, filePath, &putExtra)
+	return ok, revel.Config.StringDefault("qiniu.domain", "https://img.imzhp.com/") + key
 }

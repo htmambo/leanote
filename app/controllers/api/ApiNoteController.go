@@ -248,7 +248,7 @@ func (c ApiNote) AddNote(noteOrContent info.ApiNote) revel.Result {
 			if file.HasBody {
 				if file.LocalFileId != "" {
 					// FileDatas[54c7ae27d98d0329dd000000]
-					ok, msg, fileId := c.upload("FileDatas["+file.LocalFileId+"]", noteId.Hex(), file.IsAttach)
+					ok, msg, fileId, url := c.upload("FileDatas["+file.LocalFileId+"]", noteId.Hex(), file.IsAttach)
 
 					if !ok {
 						re.Ok = false
@@ -269,7 +269,11 @@ func (c ApiNote) AddNote(noteOrContent info.ApiNote) revel.Result {
 						if file.IsAttach {
 							attachNum++
 						} else if noteOrContent.ImgSrc == "" {
-							noteOrContent.ImgSrc = "/api/file/getImage?fileId=" + fileId
+							if revel.Config.BoolDefault("qiniu.enabled", false) {
+								noteOrContent.ImgSrc = url + revel.Config.StringDefault("qiniu.list-stylename", "")
+							} else {
+								noteOrContent.ImgSrc = "/api/file/getImage?fileId=" + fileId
+							}
 						}
 					}
 				} else {
@@ -395,7 +399,7 @@ func (c ApiNote) UpdateNote(noteOrContent info.ApiNote) revel.Result {
 				if file.HasBody {
 					if file.LocalFileId != "" {
 						// FileDatas[54c7ae27d98d0329dd000000]
-						ok, msg, fileId := c.upload("FileDatas["+file.LocalFileId+"]", noteId, file.IsAttach)
+						ok, msg, fileId, url := c.upload("FileDatas["+file.LocalFileId+"]", noteId, file.IsAttach)
 						if !ok {
 							Log("upload file error")
 							re.Ok = false
@@ -411,7 +415,11 @@ func (c ApiNote) UpdateNote(noteOrContent info.ApiNote) revel.Result {
 							noteOrContent.Files[i] = file
 							if file.IsAttach {
 							} else if note.ImgSrc == "" {
-								noteOrContent.ImgSrc = "/api/file/getImage?fileId=" + fileId
+								if revel.Config.BoolDefault("qiniu.enabled", false) {
+									noteOrContent.ImgSrc = url + "-list"
+								} else {
+									noteOrContent.ImgSrc = "/api/file/getImage?fileId=" + fileId
+								}
 							}
 						}
 					} else {

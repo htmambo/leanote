@@ -12,9 +12,12 @@ adminUsername=admin
 # qiniu config
 qiniu.enabled=false # 是否开启七牛存储
 qiniu.use_https=false # 是否使用https
+qiniu.domain= # 在七牛绑定的域名，后面必须带/
 qiniu.bucket=  # 七牛存储空间的名称
 qiniu.access_key= # 七牛个人中心申请到的ak
 qiniu.secret_key= # 七牛个人中心申请到的ak对应的sk
+qiniu.list-stylename=-list # 七牛列表用图片的样式名称
+qiniu.img-stylename=-web # 七牛普通图片样式名称
 
 # mongdb
 db.host=127.0.0.1

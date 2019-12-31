@@ -125,9 +125,11 @@ func (c ApiBaseContrller) uploadAttach(name string, noteId string) (ok bool, msg
 }
 
 // 上传图片
-func (c ApiBaseContrller) upload(name string, noteId string, isAttach bool) (ok bool, msg string, id string) {
+func (c ApiBaseContrller) upload(name string, noteId string, isAttach bool) (ok bool, msg string, id string, url string) {
 	if isAttach {
-		return c.uploadAttach(name, noteId)
+		ok, msg, id = c.uploadAttach(name, noteId)
+		url = "/api/file/getFile?fileId=" + id
+		return
 	}
 	// file, handel, err := c.Request.FormFile(name)
 	// if err != nil {
@@ -198,6 +200,7 @@ func (c ApiBaseContrller) upload(name string, noteId string, isAttach bool) (ok 
 	ok, msg = fileService.AddImage(fileInfo, "", c.getUserId(), true)
 	if ok {
 		id = fileInfo.FileId.Hex()
+		url = "/api/file/getImage?fileId=" + id
 	}
 	return
 }
