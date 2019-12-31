@@ -186,7 +186,7 @@ func (c ApiBaseContrller) upload(name string, noteId string, isAttach bool) (ok 
 		return
 	}
 	// 改变成gif图片
-	_, toPathGif := TransToGif(toPath, 0, true)
+	ok, toPathGif := TransToGif(toPath, 0, true)
 	filename = GetFilename(toPathGif)
 	filesize := GetFilesize(toPathGif)
 	fileUrlPath += "/" + filename
@@ -200,7 +200,11 @@ func (c ApiBaseContrller) upload(name string, noteId string, isAttach bool) (ok 
 	ok, msg = fileService.AddImage(fileInfo, "", c.getUserId(), true)
 	if ok {
 		id = fileInfo.FileId.Hex()
-		url = "/api/file/getImage?fileId=" + id
+		if revel.Config.BoolDefault("qiniu.enabled", false) && ok {
+			url = toPathGif
+		} else {
+			url = "/api/file/getImage?fileId=" + id
+		}
 	}
 	return
 }
