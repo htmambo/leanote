@@ -32,7 +32,8 @@ db.password= # if not exists, please leave it blank
 
 # You Must Change It !! About Security!!
 app.secret=V85ZzBeTnzpsHyjQX4zukbQ8qqtju9y2aDM55VWxAH9Qop19poekx3xkcDVvrD0y #
-
+use_gotenberg=true   #是否开启gotenberg
+gotenberg_host=http://127.0.0.1:3000  #gotenberg地址
 #--------------------------------
 # revel config
 # for dev

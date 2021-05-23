@@ -2,9 +2,6 @@ package lea
 
 import (
 	"context"
-	"github.com/qiniu/api.v7/auth/qbox"
-	"github.com/qiniu/api.v7/storage"
-	"github.com/revel/revel"
 	"image"
 	"image/draw"
 	"image/jpeg"
@@ -12,6 +9,10 @@ import (
 	"net/http"
 	"os"
 	"strings"
+
+	"github.com/qiniu/api.v7/v7/auth/qbox"
+	"github.com/qiniu/api.v7/v7/storage"
+	"github.com/revel/revel"
 )
 
 func waterJpeg(path string) (ok bool, transPath string) {
