@@ -16,6 +16,7 @@ import (
 	//	"fmt"
 	//	"bytes"
 	//	"os"
+	"github.com/thecodingmachine/gotenberg-go-client"
 )
 
 // 笔记API
@@ -633,31 +634,41 @@ func (c ApiNote) ExportPdf(noteId string) revel.Result {
 	filename := guid + ".pdf"
 	path := dir + "/" + filename
 
+	// leanote.com的secret
 	appKey, _ := revel.Config.String("app.secretLeanote")
 	if appKey == "" {
 		appKey, _ = revel.Config.String("app.secret")
 	}
-
-	// 生成之
-	binPath := configService.GetGlobalStringConfig("exportPdfBinPath")
-	// 默认路径
-	if binPath == "" {
-		binPath = "/usr/local/bin/wkhtmltopdf"
-	}
-
 	url := configService.GetSiteUrl() + "/note/toPdf?noteId=" + noteId + "&appKey=" + appKey
-	var cc string
-	if note.IsMarkdown {
-		cc = binPath + " --lowquality --window-status done \"" + url + "\"  \"" + path + "\"" //  \"" + cookieDomain + "\" \"" + cookieName + "\" \"" + cookieValue + "\""
-	} else {
-		cc = binPath + " --lowquality \"" + url + "\"  \"" + path + "\"" //  \"" + cookieDomain + "\" \"" + cookieName + "\" \"" + cookieValue + "\""
-	}
 
-	cmd := exec.Command("/bin/sh", "-c", cc)
-	_, err := cmd.Output()
-	if err != nil {
-		re.Msg = "sysError"
-		return c.RenderJSON(re)
+	useGotenberg, _ := revel.Config.Bool("app.use_gotenberg")
+	gotenbergHost, _ := revel.Config.String("app.gotenberg_host")
+	if(useGotenberg) {
+		c := &gotenberg.Client{Hostname: gotenbergHost}
+		req := gotenberg.NewURLRequest(url)
+		req.Margins(gotenberg.NoMargins)
+		c.Store(req, path)
+	} else {
+		// 生成之
+		binPath := configService.GetGlobalStringConfig("exportPdfBinPath")
+		// 默认路径
+		if binPath == "" {
+			binPath = "/usr/local/bin/wkhtmltopdf"
+		}
+
+		var cc string
+		if note.IsMarkdown {
+			cc = binPath + " --lowquality --window-status done \"" + url + "\"  \"" + path + "\"" //  \"" + cookieDomain + "\" \"" + cookieName + "\" \"" + cookieValue + "\""
+		} else {
+			cc = binPath + " --lowquality \"" + url + "\"  \"" + path + "\"" //  \"" + cookieDomain + "\" \"" + cookieName + "\" \"" + cookieValue + "\""
+		}
+
+		cmd := exec.Command("/bin/sh", "-c", cc)
+		_, err := cmd.Output()
+		if err != nil {
+			re.Msg = "sysError"
+			return c.RenderJSON(re)
+		}
 	}
 	file, err := os.Open(path)
 	if err != nil {

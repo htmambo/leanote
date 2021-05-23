@@ -447,9 +447,9 @@ func (c Note) ExportPdf(noteId string) revel.Result {
 	url := configService.GetSiteUrl() + "/note/toPdf?noteId=" + noteId + "&appKey=" + appKey
 
 	useGotenberg, _ := revel.Config.Bool("app.use_gotenberg")
-	gotenbertHost, _ := revel.Config.String("app.gotenberg_host")
+	gotenbergHost, _ := revel.Config.String("app.gotenberg_host")
 	if(useGotenberg) {
-		c := &gotenberg.Client{Hostname: gotenbertHost}
+		c := &gotenberg.Client{Hostname: gotenbergHost}
 		req := gotenberg.NewURLRequest(url)
 		req.Margins(gotenberg.NoMargins)
 		c.Store(req, path)
