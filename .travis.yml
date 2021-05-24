@@ -1,29 +1,41 @@
 language: go
-go: 1.7
+go: 1.15
 
 services:
   - mongodb # 2.4.12
 
 install:
+  - go version
   - export PATH=$PATH:$HOME/gopath/bin
-  - go get -v github.com/htmambo/leanote/app
+  # - go get -v github.com/htmambo/leanote/app
   - go get -u github.com/revel/cmd/revel
-  - ls $GOPATH/src/github.com/revel/
+  # - ls $GOPATH/src/github.com/revel/
   # - go get github.com/revel/moudle/revel
   # - go install github.com/revel/cmd/revel
+  - revel version
   - pwd
   - ls
 
 script:
+  - wget https://github.com/htmambo/leanote/archive/refs/heads/master.zip
+  - unzip master.zip
+  - mv leanote-master leanote
+  - cd leanote
+
   - mongo --version
   - mongorestore -h localhost -d leanote --dir ./mongodb_backup/leanote_install_data/
 
+  - cd ./sh
+  # - cd $GOPATH/src/github.com/htmambo/leanote/sh
+  - sh run.sh &
+
   # gen tmp/main.go, routes/routes.go
-  - go run app/cmd/main.go
+  #- go run app/cmd/main.go
   # build
-  - go build -o leanote github.com/htmambo/leanote/app/tmp
+  #- go build -o leanote github.com/htmambo/leanote/app/tmp
   # run with port 9000
-  - ./leanote -importPath=github.com/htmambo/leanote -runMode=dev -port=9000 &
+  #- ./leanote -importPath=github.com/leanote/leanote -runMode=dev -port=9000 &
+
   - sleep 10s;
   # test
   - curl http://localhost:9000
@@ -31,5 +43,5 @@ script:
   - curl http://localhost:9000/login
   - curl http://localhost:9000/demo
 
-  # - revel build github.com/htmambo/leanote tmp
+  # - revel build github.com/leanote/leanote tmp
   # OK
