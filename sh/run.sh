@@ -5,4 +5,4 @@ SCRIPTPATH=$(dirname "$PWD")
 echo $SCRIPTPATH;
 cd $SCRIPTPATH;
 
-revel run -a .
+/Volumes/Workarea/golang/bin/revel run -a .
